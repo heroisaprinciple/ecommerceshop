@@ -49,13 +49,14 @@ gem "bootsnap", require: false
 # gem "sassc-rails"
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
+gem "image_processing"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem 'rspec-rails'
   gem "factory_bot", "~> 6.2"
+  gem 'faker'
 end
 
 group :development do
@@ -70,12 +71,16 @@ group :development do
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  # Use system testing [https://guides.rub
+  # yonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
 end
 
 gem 'simplecov', require: false, group: :test
-gem 'faker'
-
+gem 'devise'
+gem 'devise-tailwindcssed'
+gem 'jquery-rails'
+gem 'jquery-ui-rails'
+gem 'kaminari'

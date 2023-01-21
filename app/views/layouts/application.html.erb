@@ -8,14 +8,20 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <!-- special for forms --> 
+    <script src="https://kit.fontawesome.com/3cf9b4a2ab.js" crossorigin="anonymous"></script>
+
 
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-stone-900">
+  <%= render partial: "layouts/shared/header" %>
+    <main class="container mx-auto mt-20 px-5 flex">
       <%= yield %>
     </main>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
 
   </body>
 </html>
