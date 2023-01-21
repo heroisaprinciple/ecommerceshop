@@ -9,6 +9,5 @@
   Product.create!(
     name: Faker::Commerce.unique.product_name,
     price: Faker::Commerce.price,
-    amount_left: Faker::Commerce
   )
 end
