@@ -8,6 +8,7 @@
 10.times do
   Product.create!(
     name: Faker::Commerce.unique.product_name,
-    price: Faker::Commerce.price,
+    price: Faker::Commerce.unique.price,
+    description: Faker::Lorem.paragraph(sentence_count: 1)
   )
 end

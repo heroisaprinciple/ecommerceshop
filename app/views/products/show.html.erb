@@ -1,21 +1,20 @@
 <div class="flex items-center">
   <div class="w-full max-w-sm bg-stone-900 rounded-lg dark:bg-stone-800 dark:bg-stone-800">
     <div class="bg-stone-600 rounded-tl-lg hover:rounded-tr-3xl">
-      <div class="p-3"></div>
-      <div class="p-3"></div>
+      <div class="p-3 gif"></div>
     </div>
     <div class="px-5 pb-5">
       <a href="#">
         <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"> <%= @product.name %></h5>
-        <h7 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"> <%= @product.amount_left %></h7>
+        <h7 class="tracking-tight text-green-900"> <%= @product.description %></h7>
       </a>
       <div class="flex items-center justify-between">
         <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= @product.price %>$</span>
-        <a href="#" class="text-white rounded-full focus:ring-4 focus:outline-none bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add to cart</a>
+        <%= button_to 'Add to carts', cart_products_path(product_id: @product.id),
+                      class: "text-white rounded-full focus:ring-4 focus:outline-none bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        %>
       </div>
       <div>
-        <%= link_to "Show this product", product_path(@product.id),
-                    class: "overline text-slate-50" %>
         <%= link_to "Edit this product", edit_product_path(@product.id),
                     class: "overline text-slate-50" %>
       </div>

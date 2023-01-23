@@ -5,7 +5,7 @@ RSpec.describe "carts/new", type: :view do
     assign(:cart, Cart.new())
   end
 
-  it "renders new cart form" do
+  it "renders new carts form" do
     render
 
     assert_select "form[action=?][method=?]", carts_path, "post" do

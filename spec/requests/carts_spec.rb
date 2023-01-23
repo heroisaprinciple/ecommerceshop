@@ -64,7 +64,7 @@ RSpec.describe "/carts", type: :request do
         }.to change(Cart, :count).by(1)
       end
 
-      it "redirects to the created cart" do
+      it "redirects to the created carts" do
         post carts_url, params: { cart: valid_attributes }
         expect(response).to redirect_to(cart_url(Cart.last))
       end
@@ -92,14 +92,14 @@ RSpec.describe "/carts", type: :request do
         skip("Add a hash of attributes valid for your model")
       }
 
-      it "updates the requested cart" do
+      it "updates the requested carts" do
         cart = Cart.create! valid_attributes
         patch cart_url(cart), params: { cart: new_attributes }
         cart.reload
         skip("Add assertions for updated state")
       end
 
-      it "redirects to the cart" do
+      it "redirects to the carts" do
         cart = Cart.create! valid_attributes
         patch cart_url(cart), params: { cart: new_attributes }
         cart.reload
@@ -119,7 +119,7 @@ RSpec.describe "/carts", type: :request do
   end
 
   describe "DELETE /destroy" do
-    it "destroys the requested cart" do
+    it "destroys the requested carts" do
       cart = Cart.create! valid_attributes
       expect {
         delete cart_url(cart)

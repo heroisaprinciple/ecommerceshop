@@ -9,7 +9,7 @@ RSpec.describe "carts/edit", type: :view do
     assign(:cart, cart)
   end
 
-  it "renders the edit cart form" do
+  it "renders the edit carts form" do
     render
 
     assert_select "form[action=?][method=?]", cart_path(cart), "post" do

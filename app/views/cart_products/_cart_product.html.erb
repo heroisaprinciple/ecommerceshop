@@ -1,0 +1,7 @@
+<div id="<%= dom_id cart_product %>">
+  <% if action_name != "show" %>
+    <%= link_to "Show this carts product", cart_product, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this carts product', edit_cart_product_path(cart_product), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>
