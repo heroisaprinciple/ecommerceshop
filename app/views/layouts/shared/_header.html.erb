@@ -30,23 +30,30 @@
             <%= link_to 'Products', products_path,
                         class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
           </li>
-          <li>
-            <%= link_to 'Sign in', user_session_path,
-                        class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
-          </li>
+          <% unless user_signed_in? %>
+            <li>
+              <%= link_to 'Sign in', user_session_path,
+                          class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
+            </li>
+          <% end %>
           <% if current_user %>
             <li>
                 <%= link_to("Log out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete },
                           class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white')%>
             </li>
+            <li>
+              <%=  link_to 'Cart', cart_path(@cart),
+                           class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white" %>
+            </li>
+
           <% end %>
 
           <% unless user_signed_in? %>
           <li>
-            <%= link_to 'Sign up', new_user_session_path,
-                        class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white" %>
+                <%=  link_to 'Sign up', new_user_session_path,
+                        class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"  %>
           </li>
-          <% end %>
+          <%  end %>
         </ul>
       </div>
     </div>
