@@ -1,7 +1,17 @@
 class ProductsController < ApplicationController
   before_action :set_product, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, except: [:index, :show]
 
+  def add_to_cart
+    id = params[:id].to_i
+    # add product to cart unless if it is not already in the cart
+    session[:cart] << id unless session[:cart].include?(id)
+    redirect_to products_path
+  end
+  def remove_from_cart
+    id = params[:id].to_i
+    session[:cart].delete(id)
+    redirect_to products_path
+  end
   # GET /products or /products.json
   def index
     @products = Product.order(:name).page params[:page]

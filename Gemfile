@@ -80,7 +80,4 @@ end
 
 gem 'simplecov', require: false, group: :test
 gem 'devise'
-gem 'devise-tailwindcssed'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
 gem 'kaminari'

@@ -1,13 +1,7 @@
 class CartProductsController < ApplicationController
-  include CurrentCart
-
   before_action :set_cart_product, only: %i[ show edit update destroy ]
-  before_action :set_cart, only: [:create]
 
   # GET /cart_products or /cart_products.json
-  def index
-    @cart_products = CartProduct.all
-  end
 
   # GET /cart_products/1 or /cart_products/1.json
   def show
@@ -24,8 +18,7 @@ class CartProductsController < ApplicationController
 
   # POST /cart_products or /cart_products.json
   def create
-    product = Product.find(params[:product_id])
-    @cart_product = @cart.add_product(product)
+
     respond_to do |format|
       if @cart_product.save
         format.html { redirect_to @cart_product.cart, notice: "Item added to carts." }
@@ -52,8 +45,6 @@ class CartProductsController < ApplicationController
 
   # DELETE /cart_products/1 or /cart_products/1.json
   def destroy
-    @cart = Cart.find(session[:cart_id])
-    @cart_product.destroy
 
     respond_to do |format|
       format.html { redirect_to cart_path(@cart), notice: "Cart product was successfully destroyed." }
@@ -69,7 +60,6 @@ class CartProductsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def cart_product_params
-      # params.fetch(:cart_product, {})
-      params.require(:cart_product).permit(:product_id, :cart_id)
+       params.fetch(:cart_product, {})
     end
 end
