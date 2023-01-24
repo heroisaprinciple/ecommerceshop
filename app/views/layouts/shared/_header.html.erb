@@ -30,10 +30,13 @@
             <%= link_to 'Products', products_path,
                         class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
           </li>
-          <li>
-            <%= link_to 'Sign in', user_session_path,
-                        class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
-          </li>
+          <% unless user_signed_in? %>
+            <li>
+              <%= link_to 'Sign in', user_session_path,
+                          class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
+            </li>
+          <% end  %>
+
           <% if current_user %>
             <li>
                 <%= link_to("Log out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete },
