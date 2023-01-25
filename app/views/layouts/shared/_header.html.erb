@@ -19,6 +19,10 @@
             <%= link_to 'Products', products_path,
                         class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
           </li>
+
+
+          <!-- user_path -->
+
           <% unless user_signed_in? %>
             <li>
               <%= link_to 'Sign in', user_session_path,
@@ -41,7 +45,7 @@
 
           <% unless user_signed_in? %>
           <li>
-                <%=  link_to 'Sign up', new_user_session_path,
+                <%=  link_to 'Sign up', 'http://127.0.0.1:3000/users/sign_up',
                         class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"  %>
           </li>
           <%  end %>

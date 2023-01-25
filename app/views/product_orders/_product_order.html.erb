@@ -1,0 +1,7 @@
+<div id="<%= dom_id product_order %>">
+  <% if action_name != "show" %>
+    <%= link_to "Show this product order", product_order, class: "rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%= link_to 'Edit this product order', edit_product_order_path(product_order), class: "rounded-lg py-3 ml-2 px-5 bg-gray-100 inline-block font-medium" %>
+    <hr class="mt-6">
+  <% end %>
+</div>
