@@ -12,11 +12,10 @@
 
       <div class="">
         <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= product.price %>$</span>
-        <% unless @cart.include?(product) %>
-            <%= button_to 'Add to cart', add_to_cart_path(product),
+        <!-- unless @cart.include?(product) -->
+            <%= button_to 'Add to cart', cart_path(product),
                           class: "text-white rounded-full focus:ring-4 focus:outline-none bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-            %>
-        <% end %>
+                %>
       </div>
 
       <div class="mt-3">
