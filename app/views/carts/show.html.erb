@@ -5,7 +5,7 @@
 <%= render partial: 'layouts/shared/cart-empty' %>
 
 <div class="grid grid-cols-1 gap-4 m-auto justify-center">
-  <% @cart.each do |cart_item| %>
+  <% @cart.products.each do |cart_item| %>
     <div class="max-w-sm bg-stone-900 rounded-lg dark:bg-stone-800 dark:bg-stone-800 ">
       <div class="bg-stone-600 rounded-tl-lg hover:rounded-tr-3xl">
         <div class="p-3 gif"></div>
@@ -18,8 +18,8 @@
 
         <div class="mt-3">
           <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= cart_item.price %>$</span>
-          <% unless @cart.empty? %>
-            <%= button_to "Remove from cart", remove_from_cart_path(cart_item), method: :delete,
+          <% unless @cart.cart_products.empty? %>
+            <%= button_to "Remove from cart", destroy_cart_product_path(cart_item), method: :delete,
               class: 'overline text-slate-50' %>
           <% end %>
         </div>
@@ -27,7 +27,7 @@
     </div>
   <% end %>
 
-  <% unless @cart.empty? %>
+  <% unless @cart.present? %>
     <div class="text-center">
       <button class="text-white rounded-full focus:ring-4 focus:outline-none bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"> Order </button>
     </div>

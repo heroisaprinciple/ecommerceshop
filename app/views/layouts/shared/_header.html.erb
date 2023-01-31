@@ -32,12 +32,10 @@
             </li>
           <% end %>
 
-          <% if current_user %>
             <li>
-              <%=  link_to 'Cart', root_path,
+              <%=  link_to 'Cart', cart_path(current_user.cart),
                                class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white" %>
             </li>
-          <% end %>
 
           <% unless user_signed_in? %>
           <li>
