@@ -25,7 +25,7 @@ class CartsController < ApplicationController
       @cart_product = current_user.cart.cart_products.find_by(cart_id: current_user.cart, product_id: @product.id)
       @cart_product.destroy
     else
-      session[:product_id].delete(params[:id])
+      session[:product_id].delete(params[:id].to_i)
     end
     redirect_to show_cart_path
   end
