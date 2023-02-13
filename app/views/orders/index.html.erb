@@ -1,0 +1,23 @@
+<div class="flex flex-col justify-center text-center">
+  <h1 class="font-bold text-4xl text-slate-100">Your orders,
+    <%= current_user.firstname %> <%= current_user.lastname %></h1>
+</div>
+
+<table class="table-auto text-green-200">
+  <thead>
+  <tr class="text-center">
+    <th>Order</th>
+    <th>Created</th>
+    <th>Delivered</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @orders.each do |order| %>
+    <tr class="text-center">
+      <td> <%= link_to order.id, order_path(order) %> </td>
+      <td> <%= order.ordered_at %></td>
+      <td> soon </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
