@@ -1,7 +1,9 @@
+@import "components/buttons.css";
+@import "components/blocks.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 /*
 
 @layer components {

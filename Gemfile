@@ -83,3 +83,5 @@ gem 'devise'
 gem 'kaminari'
 
 gem 'pry', '~> 0.13.1'
+
+gem 'simple_form' # , github: 'https://github.com/loqimean/simple_form'

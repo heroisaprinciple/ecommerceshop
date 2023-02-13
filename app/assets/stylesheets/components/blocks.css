@@ -1,0 +1,11 @@
+@layer base {
+    .center-flex {
+        @apply flex flex-col justify-center text-center;
+    }
+    .center-grid {
+        @apply grid grid-cols-1 gap-4 m-auto justify-center text-center;
+    }
+    .element-card {
+        @apply max-w-sm bg-stone-900 rounded-lg dark:bg-stone-800 dark:bg-stone-800 m-auto;
+    }
+}
