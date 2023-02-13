@@ -1,16 +1,16 @@
 class CartsController < ApplicationController
   def show
+    # TODO: resources? collections?
     if user_signed_in?
-      @cart_products = current_user.cart.cart_products
+      @cart_products = current_user.cart.products
     elsif session[:product_id]
       @cart_products = Product.where(id: session[:product_id])
     end
   end
 
   def add_product
-    @product = Product.find(params[:id])
     if user_signed_in?
-      @cart_product = current_user.cart.cart_products.create(cart_id: current_user.cart, product_id: @product.id)
+      current_user.cart.products << Product.find(params[:id])
     else
       if session[:product_id]
         session[:product_id] << params[:id].to_i
@@ -20,10 +20,8 @@ class CartsController < ApplicationController
     end
   end
   def destroy_product
-    @product = Product.find(params[:id])
     if user_signed_in?
-      @cart_product = current_user.cart.cart_products.find_by(cart_id: current_user.cart, product_id: @product.id)
-      @cart_product.destroy
+      current_user.cart.products.destroy(params[:id])
     else
       session[:product_id].delete(params[:id].to_i)
     end

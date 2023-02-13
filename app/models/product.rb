@@ -1,7 +1,9 @@
 class Product < ApplicationRecord
-  paginates_per 5
+  paginates_per 6
 
-  has_many :product_orders
-  has_many :orders, through: :product_orders
+  belongs_to :category
+  has_many :product_orders, dependent: :destroy
+  has_many :orders, through: :product_orders, dependent: :destroy
 
+  scope :paginate_order, -> {select("*")}
 end

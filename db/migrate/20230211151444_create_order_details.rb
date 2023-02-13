@@ -4,6 +4,8 @@ class CreateOrderDetails < ActiveRecord::Migration[7.0]
       t.string :firstname
       t.string :lastname
       t.string :email
+      t.references :order, null: false, foreign_key: true
+      t.references :address, null: false, foreign_key: true
 
       t.timestamps
     end

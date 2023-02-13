@@ -1,0 +1,17 @@
+<% if user_signed_in? %>
+<div class="flex flex-col justify-center text-center">
+  <h1 class="font-bold text-4xl text-slate-100">
+    Dear <%= current_user.firstname %> <%= current_user.lastname %>,
+    Your order #<%= @order.id %> is completed.</h1>
+</div>
+<% elsif session[:product_id] %>
+  <div class="flex flex-col justify-center text-center">
+    <h1 class="font-bold text-4xl text-slate-100">
+      Dear user, Your order #<%= @order.id %> is completed.</h1>
+  </div>
+<% end %>
+
+<div class="flex flex-col justify-center text-center">
+  <h1 class="font-bold text-xl text-slate-100 text-white">
+    Please, wait sometime for us to deliver it.</h1>
+</div>

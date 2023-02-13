@@ -11,7 +11,7 @@
   <div class="m-8"></div>
 
   <div id="products" class="min-w-full">
-    <%= render partial: 'product' %>
+    <%= render partial: 'layouts/shared/product', locals: {products: @products} %>
   </div>
 
   <div id="products" class="min-w-full text-center text-white">
