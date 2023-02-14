@@ -1,11 +1,6 @@
 class CartsController < ApplicationController
   def show
-    # TODO: resources? collections?
-    if user_signed_in?
-      @cart_products = current_user.cart.products
-    elsif session[:product_id]
-      @cart_products = Product.where(id: session[:product_id])
-    end
+    @cart_products = resource
   end
 
   def add_product
@@ -26,5 +21,14 @@ class CartsController < ApplicationController
       session[:product_id].delete(params[:id].to_i)
     end
     redirect_to show_cart_path
+  end
+
+  private
+  def resource
+    if user_signed_in?
+      current_user.cart.products
+    elsif session[:product_id].present?
+      Product.where(id: session[:product_id])
+    end
   end
 end

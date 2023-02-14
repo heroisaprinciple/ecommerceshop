@@ -3,6 +3,7 @@
     <h1 class="font-bold text-4xl text-slate-100">Your orders,
       <%= current_user.firstname %> <%= current_user.lastname %></h1>
   </div>
+  <div class="p-3"></div>
 
   <table class="table-auto text-green-200">
     <thead>
@@ -22,6 +23,27 @@
     <% end %>
     </tbody>
   </table>
-<% else %>
-  <h1 class="font-bold text-4xl text-slate-100 text-center">Sorry, my friend, but you need to be logged in.</h1>
+
+  <% elsif session[:product_id] %>
+  <div class="center-flex">
+    <h1 class="font-bold text-4xl text-slate-100">Your order products,
+      anonymous user</h1>
+  </div>
+  <div class="p-3"></div>
+  <table class="table-auto text-purple-300">
+    <thead>
+    <tr class="text-center">
+      <th>Product</th>
+      <th>Delivered</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @orders.each do |prod| %>
+    <tr class="text-center">
+      <td> <%= link_to prod.name, product_path(prod) %> </td>
+      <td> soon </td>
+    </tr>
+    <% end %>
+    </tbody>
+  </table>
 <% end %>

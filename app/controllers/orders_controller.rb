@@ -1,8 +1,6 @@
 class OrdersController < ApplicationController
   def index
-    if user_signed_in?
-      @orders = collection
-    end
+    @orders = collection
   end
 
   def show
@@ -13,9 +11,9 @@ class OrdersController < ApplicationController
   def create
     if user_signed_in?
       @order = current_user.orders.new(user_id: current_user.id, ordered_at: Time.now)
-      binding.break
+      # binding.break
       @order.save!
-      binding.break
+      # binding.break
       @cart_products = current_user.cart.products
       @cart_products.each do |cart_product|
         @ordered_product = ProductOrder.new(order_id: @order.id, product_id: cart_product.id)
@@ -24,17 +22,17 @@ class OrdersController < ApplicationController
 
       # TODO: address is not being created (forms)
       @address = current_user.addresses.new(address_params)
-      binding.break
+      # binding.break
       @address.user_id = current_user.id
       @address.save!
-      binding.break
+      # binding.break
 
       @order_details = OrderDetail.create(firstname: current_user.firstname,
                                           lastname: current_user.lastname,
                                           email: current_user.email,
                                           order_id: @order.id,
                                           address_id: @address.id)
-      binding.break
+      # binding.break
 
     elsif session[:product_id]
       @order = Order.new
@@ -68,14 +66,16 @@ class OrdersController < ApplicationController
 
   private
   def collection
-    current_user.orders
+    if user_signed_in?
+      current_user.orders
+    elsif session[:product_id].present?
+      Product.find(session[:product_id])
+    end
   end
 
   def resource
     if user_signed_in?
-      current_user.orders.find(params[:id])
-    elsif session[:product_id]
-      Product.where(session[:product_id])
+      collection.find(params[:id])
     end
   end
 
