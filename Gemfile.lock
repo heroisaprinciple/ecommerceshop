@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/loqimean/simple_form.git
+  revision: 0641503244fbf3da4ee3bd091a03d9ac410af465
+  specs:
+    simple_form (5.1.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -117,9 +125,6 @@ GEM
     io-console (0.6.0)
     irb (1.6.2)
       reline (>= 0.3.0)
-    jbuilder (2.11.5)
-      actionview (>= 5.0.0)
-      activesupport (>= 5.0.0)
     kaminari (1.2.2)
       activesupport (>= 4.1.0)
       kaminari-actionview (= 1.2.2)
@@ -232,9 +237,6 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    simple_form (5.2.0)
-      actionpack (>= 5.2)
-      activemodel (>= 5.2)
     simplecov (0.21.2)
       docile (~> 1.1)
       simplecov-html (~> 0.11)
@@ -296,7 +298,6 @@ DEPENDENCIES
   faker
   image_processing
   importmap-rails
-  jbuilder
   kaminari
   pg (~> 1.1)
   pry (~> 0.13.1)
@@ -304,7 +305,7 @@ DEPENDENCIES
   rails (~> 7.0.4)
   rspec-rails
   selenium-webdriver
-  simple_form
+  simple_form!
   simplecov
   sprockets-rails
   stimulus-rails

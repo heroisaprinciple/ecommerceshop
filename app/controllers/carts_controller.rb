@@ -28,7 +28,7 @@ class CartsController < ApplicationController
     if user_signed_in?
       current_user.cart.products
     elsif session[:product_id].present?
-      Product.where(id: session[:product_id])
+      Product.where(id: session[:product_id]) # product_ids
     end
   end
 end

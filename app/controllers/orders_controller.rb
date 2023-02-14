@@ -37,7 +37,7 @@ class OrdersController < ApplicationController
     elsif session[:product_id]
       @order = Order.new
       @order.save!
-      @cart_products = Product.where(id: session[:product_id])
+      @cart_products = Product.where(id: session[:product_id]) #prdudct_ids
       @cart_products.each do |cart_product|
         @ordered_product = ProductOrder.create(order_id: @order.id, product_id: cart_product.id)
         @ordered_product.save!
@@ -69,7 +69,7 @@ class OrdersController < ApplicationController
     if user_signed_in?
       current_user.orders
     elsif session[:product_id].present?
-      Product.find(session[:product_id])
+      Product.find(session[:product_id]) # where and ids
     end
   end
 
