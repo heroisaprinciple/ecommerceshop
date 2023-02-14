@@ -5,7 +5,7 @@ class CartsController < ApplicationController
 
   def add_product
     if user_signed_in?
-      current_user.cart.products << Product.find(params[:id])
+      current_user.cart.products << Product.find(params[:id]) #
     else
       if session[:product_ids].present?
         session[:product_ids] << params[:id].to_i
@@ -28,7 +28,7 @@ class CartsController < ApplicationController
     if user_signed_in?
       current_user.cart.products
     elsif session[:product_ids].present?
-      Product.where(id: session[:product_ids]) # product_ids
+      Product.where(id: session[:product_ids])
     end
   end
 end

@@ -20,7 +20,7 @@ class OrdersController < ApplicationController
         @ordered_product.save!
       end
 
-      # TODO: address is not being created (forms)
+      # TODO: address is not being created -> (forms)
       @address = current_user.addresses.new(address_params)
       # binding.break
       @address.user_id = current_user.id
@@ -53,6 +53,7 @@ class OrdersController < ApplicationController
   end
 
   def update
+    # does not render
     @order = current_user.orders.last
     if @order.update!(status: 'Completed')
       render 'order_confirmed'

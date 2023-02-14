@@ -1,4 +1,4 @@
-<%= simple_form_for order, url: orders_path(order) do |form| %>
+<%= simple_form_for order, url: order_path(order), method: :post do |form| %>
   <%= form.simple_fields_for :address do |form| %>
         <%= form.input :country, priority: ["UA"] %>
         <%= form.input :city %>
