@@ -1,0 +1,10 @@
+<%= simple_form_for order, url: orders_path(order) do |form| %>
+  <%= form.simple_fields_for :address do |form| %>
+        <%= form.input :country, priority: ["UA"] %>
+        <%= form.input :city %>
+        <%= form.input :street %>
+      <p class='text-white'> Please, leave here any additional information for the address if you want. (house number, eircode, etc)</p>
+        <%= form.input :comment, as: :text%>
+    <% end %>
+  <%= form.button :submit, 'Confirm', class:"button-grey" %>
+<% end %>

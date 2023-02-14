@@ -24,7 +24,7 @@
     </tbody>
   </table>
 
-<% elsif session[:product_id] %>
+<% elsif session[:product_ids].present? %>
   <div class="center-flex">
     <h1 class="font-bold text-4xl text-slate-100">Your order products,
       anonymous user</h1>
@@ -34,16 +34,21 @@
     <thead>
     <tr class="text-center">
       <th>Product</th>
-      <th>Delivered</th>
     </tr>
     </thead>
     <tbody>
     <% @orders.each do |prod| %>
       <tr class="text-center">
         <td> <%= link_to prod.name, product_path(prod) %> </td>
-        <td> soon </td>
       </tr>
     <% end %>
     </tbody>
   </table>
+
+  <div class="center-flex text-purple-400">
+    <h1 class="font-bold text-xl text-slate-100 text-white">
+      In order to confirm your order, please, fill the form below.</h1>
+      <p class="text-white">If you are positive about your order, after filling the form, please click the button 'confirm'.</p>
+      <%= render partial: 'layouts/shared/forms/form_for_anon', locals: {orders: @orders, order: @order} %>
+  </div>
 <% end %>

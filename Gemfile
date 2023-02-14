@@ -85,3 +85,4 @@ gem 'kaminari'
 gem 'pry', '~> 0.13.1'
 
 gem 'simple_form', git: 'https://github.com/loqimean/simple_form.git'
+gem 'country_select'
