@@ -24,7 +24,7 @@
     </tbody>
   </table>
 
-  <% elsif session[:product_id] %>
+<% elsif session[:product_id] %>
   <div class="center-flex">
     <h1 class="font-bold text-4xl text-slate-100">Your order products,
       anonymous user</h1>
@@ -39,10 +39,10 @@
     </thead>
     <tbody>
     <% @orders.each do |prod| %>
-    <tr class="text-center">
-      <td> <%= link_to prod.name, product_path(prod) %> </td>
-      <td> soon </td>
-    </tr>
+      <tr class="text-center">
+        <td> <%= link_to prod.name, product_path(prod) %> </td>
+        <td> soon </td>
+      </tr>
     <% end %>
     </tbody>
   </table>
