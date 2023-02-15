@@ -1,4 +1,4 @@
-<%= simple_form_for @order do |form| %>
+<%= simple_form_for order do |form| %>
   <%= form.simple_fields_for :order_detail do |details_form| %>
     <% if !user_signed_in? %>
       <%= details_form.input :firstname %>

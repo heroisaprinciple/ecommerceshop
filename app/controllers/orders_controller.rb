@@ -1,6 +1,8 @@
 class OrdersController < ApplicationController
   def index
-    @orders = collection
+    if user_signed_in?
+      @orders = collection
+    end
   end
 
   def show
