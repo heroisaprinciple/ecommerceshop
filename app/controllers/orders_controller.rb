@@ -36,9 +36,7 @@ class OrdersController < ApplicationController
     @order = resource
     if @order.update(order_params)
       @order.status = 'completed'
-      if @order.save
-        redirect_to orders_success_path(@order.id)
-      end
+      redirect_to orders_success_path(@order.id)
     else
       render :show, status: 422
     end
