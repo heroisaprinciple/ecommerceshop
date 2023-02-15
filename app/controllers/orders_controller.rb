@@ -8,7 +8,6 @@ class OrdersController < ApplicationController
   def show
     @order = resource
     @sum = sum
-    # binding.break
     @order.build_order_detail
     @order.order_detail.build_address
   end
@@ -18,7 +17,7 @@ class OrdersController < ApplicationController
       @order = current_user.orders.create(ordered_at: DateTime.current, user_id: current_user.id)
       @order.products << current_user.cart.products
       @order.save
-      # current_user.cart.clear
+      current_user.cart.products.clear
     elsif session[:product_ids]
       @order = Order.new(ordered_at: DateTime.current)
       @order.products << Product.find(session[:product_ids])
@@ -45,7 +44,7 @@ class OrdersController < ApplicationController
   end
 
   def sum
-    # Devise generates prices in '0.4701e2' form, this is why go_f is necessary here
+    # Faker generates prices in '0.4701e2' form, this is why go_f is necessary here
     @order.products.pluck(:price).map {|el| el.to_f}.sum
   end
 
