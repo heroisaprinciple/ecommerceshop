@@ -5,4 +5,6 @@ class Order < ApplicationRecord
   has_one :order_detail, dependent: :destroy
 
   attribute :status, :string, default: 'processing'
+
+  accepts_nested_attributes_for :order_detail
 end

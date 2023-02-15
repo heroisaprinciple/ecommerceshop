@@ -1,5 +1,5 @@
 <div class="flex items-center">
-  <div class="w-full max-w-sm bg-stone-900 rounded-lg dark:bg-stone-800 dark:bg-stone-800 m-auto">
+  <div class="w-full element-card">
     <div class="bg-stone-600 rounded-tl-lg hover:rounded-tr-3xl">
       <div class="p-3 gif"></div>
     </div>
@@ -11,12 +11,12 @@
       <div class="flex items-center justify-between">
         <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= @product.price %>$</span>
         <%= button_to 'Add to cart', add_product_to_cart_path(@product),
-                      class: "text-white rounded-full focus:ring-4 focus:outline-none bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      class: "button-grey"
         %>
       </div>
       <div>
         <%= link_to "Show this product", product_path(@product.id),
-                    class: "overline text-slate-50" %>
+                    class: "button-underline" %>
       </div>
     </div>
   </div>

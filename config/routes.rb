@@ -12,4 +12,7 @@ Rails.application.routes.draw do
   get 'cart', to: 'carts#show', as: :show_cart
   post 'cart/:id', to: 'carts#add_product', as: :add_product_to_cart
   delete 'cart/:id', to: 'carts#destroy_product', as: :destroy_cart_product
+
+  # order
+  get 'success/:id', to: 'orders#success', as: 'orders_success'
 end
