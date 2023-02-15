@@ -1,6 +1,10 @@
 <div class="center-flex">
   <h1 class="font-bold text-4xl text-slate-100">Your order #<%= @order.id %>,
-    <%= current_user.firstname %> <%= current_user.lastname %></h1>
+    <% if user_signed_in? %>
+      <%= current_user.firstname %> <%= current_user.lastname %></h1>
+    <% else %>
+      <span>Anon!</span>
+    <% end %>
 </div>
 
 <div class="center-flex">
