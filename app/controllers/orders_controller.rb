@@ -8,6 +8,7 @@ class OrdersController < ApplicationController
   def show
     @order = resource
     @sum = sum
+    # I have no new action and objects are associated in show
     @order.build_order_detail
     @order.order_detail.build_address
   end
