@@ -1,0 +1,16 @@
+<%= simple_form_for @order do |form| %>
+  <%= form.simple_fields_for :order_detail do |details_form| %>
+    <% if !user_signed_in? %>
+      <%= details_form.input :firstname %>
+      <%= details_form.input :lastname %>
+      <%= details_form.input :email %>
+    <% end %>
+    <%= details_form.simple_fields_for :address do |address_form| %>
+      <%= address_form.input :country, priority: ["UA"]%>
+      <%= address_form.input :city %>
+      <%= address_form.input :street %>
+      <%= address_form.input :comment, as: :text %>
+    <% end %>
+  <% end %>
+  <%= form.button :submit, 'Confirm', class:"bg-green-600 text-white" %>
+<% end %>

@@ -17,8 +17,10 @@ class CartsController < ApplicationController
   def destroy_product
     if user_signed_in?
       current_user.cart.products.destroy(params[:id])
+      binding.break
     else
       session[:product_ids].delete(params[:id].to_i)
+      binding.break
     end
     redirect_to show_cart_path
   end

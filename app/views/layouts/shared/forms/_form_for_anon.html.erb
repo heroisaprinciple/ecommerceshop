@@ -1,9 +1,0 @@
-<%= simple_form_for orders, url: orders_path(order), method: :post do |form| %>
-  <%= form.simple_fields_for :order_detail do |form| %>
-    <%= form.input :first_name %>
-    <%= form.input :last_name %>
-    <%= form.input :email %>
-  <% end %>
-  <!-- add address -->
-  <%= form.button :submit, 'Confirm', class:"button-grey" %>
-<% end %>
