@@ -262,6 +262,7 @@ GEM
       sprockets (>= 3.0.0)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    stripe (8.5.0)
     tailwindcss-rails (2.0.21-x64-mingw-ucrt)
       railties (>= 6.0.0)
     tailwindcss-rails (2.0.21-x86_64-linux)
@@ -323,6 +324,7 @@ DEPENDENCIES
   simplecov
   sprockets-rails
   stimulus-rails
+  stripe (~> 8.5)
   tailwindcss-rails
   turbo-rails
   tzinfo-data

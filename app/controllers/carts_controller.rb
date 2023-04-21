@@ -24,6 +24,7 @@ class CartsController < ApplicationController
   end
 
   private
+
   def resource
     if user_signed_in?
       current_user.cart.products
