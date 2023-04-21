@@ -41,10 +41,12 @@
                                class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white" %>
             </li>
 
-          <li>
-            <%=  link_to 'Orders', orders_path,
-                         class: "block px-4 py-2 text-sm text-green-200 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white" %>
-          </li>
+          <% if user_signed_in? %>
+            <li>
+              <%=  link_to 'Orders', orders_path,
+                           class: "block px-4 py-2 text-sm text-green-200 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white" %>
+            </li>
+          <% end %>
 
           <% if !user_signed_in? %>
           <li>

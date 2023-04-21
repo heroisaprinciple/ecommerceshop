@@ -1,0 +1,8 @@
+@layer base  {
+    .button-grey {
+        @apply text-white rounded-full focus:ring-4 focus:outline-none bg-slate-500 font-medium rounded-lg text-sm px-5 py-2.5 text-center;
+    }
+    .button-underline {
+        @apply overline text-slate-50 text-white;
+    }
+}
