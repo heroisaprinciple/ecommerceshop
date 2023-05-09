@@ -15,4 +15,7 @@ Rails.application.routes.draw do
 
   # order
   get 'success/:id', to: 'orders#success', as: 'orders_success'
+
+  # payment
+  post "checkout/create", to: 'checkout#create'
 end

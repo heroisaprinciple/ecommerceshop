@@ -12,9 +12,11 @@
 
       <div class="">
         <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= product.price %>$</span>
-            <%= button_to 'Add to cart', add_product_to_cart_path(product),
+          <form action="/checkout/create" method="POST">
+            <%= button_to 'Buy now', checkout_create_path, params: {id: product.id}, remote: true,
                           class: "button-grey"
-                %>
+            %>
+          </form>
       </div>
 
       <div class="mt-3">
