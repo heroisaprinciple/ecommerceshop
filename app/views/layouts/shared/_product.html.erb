@@ -10,13 +10,12 @@
         <h7 class="text-l font-semibold tracking-tight text-gray-900 dark:text-white"> <%= product.description %></h7>
       </a>
 
-      <div class="">
+      <div class="buy-block" data-turbo='false'>
         <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= product.price %>$</span>
-          <form action="/checkout/create" method="POST">
-            <%= button_to 'Buy now', checkout_create_path, params: {id: product.id}, remote: true,
-                          class: "button-grey"
-            %>
-          </form>
+        <%= form_with url: :create_checkout_session, method: :post do |f| %>
+          <%= f.hidden_field :id, value: product.id %>
+          <%= f.submit 'Buy now', class: "button-grey"%>
+        <% end %>
       </div>
 
       <div class="mt-3">
