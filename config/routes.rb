@@ -1,13 +1,11 @@
 Rails.application.routes.draw do
-  # resources :categories, only: [:index, :show]
-  # resources :products, only: [:index, :show]
   resources :categories do
     resources :products
   end
 
   resources :orders
   # resources :webhooks, only: [:create]
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations' }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
