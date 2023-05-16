@@ -1,5 +1,4 @@
 class ProductsController < ApplicationController
-  # before_action :create_checkout_session
   def index
     @products = collection
   end

@@ -1,7 +1,12 @@
 Rails.application.routes.draw do
-  resources :categories, only: [:index, :show]
-  resources :products, only: [:index, :show]
+  # resources :categories, only: [:index, :show]
+  # resources :products, only: [:index, :show]
+  resources :categories do
+    resources :products
+  end
+
   resources :orders
+  # resources :webhooks, only: [:create]
   devise_for :users, controllers: { sessions: 'users/sessions' }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
@@ -17,5 +22,7 @@ Rails.application.routes.draw do
   get 'success/:id', to: 'orders#success', as: 'orders_success'
 
   # payment
-  post "create-checkout-session", to: 'products#create_checkout_session'
+  post "create-checkouts-session", to: 'carts#create_checkout_session'
+  # get 'checkouts', to: 'checkouts#show'
+  # get 'billing', to: 'billings#show'
 end

@@ -89,3 +89,15 @@ gem 'country_select'
 gem "annotate", "~> 3.2"
 
 gem 'stripe', '~> 8.5'
+gem "pay", "~> 6.0"
+
+# To use Stripe, also include:
+
+# To use Braintree + PayPal, also include:
+gem "braintree", "~> 4.7"
+
+# To use Paddle, also include:
+gem "paddle_pay", "~> 0.2"
+
+# To use Receipts gem for creating invoice and receipt PDFs, also include:
+gem "receipts", "~> 2.0"

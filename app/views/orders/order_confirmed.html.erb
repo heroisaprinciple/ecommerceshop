@@ -1,7 +1,7 @@
 <% if user_signed_in? %>
 <div class="flex flex-col justify-center text-center">
   <h1 class="font-bold text-4xl text-slate-100">
-    Dear <%= current_user.firstname %> <%= current_user.lastname %>,
+    Dear <%= current_user.first_name %> <%= current_user.last_name %>,
     Your order #<%= @order.id %> is completed.</h1>
 </div>
 <% else %>

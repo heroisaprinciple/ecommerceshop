@@ -63,7 +63,7 @@ class OrdersController < ApplicationController
 
   def order_params
     params.require(:order).permit(:status,
-                                  order_detail_attributes: [:firstname, :lastname, :email,
+                                  order_detail_attributes: [:first_name, :last_name, :email,
                                                             address_attributes: [:country, :city, :street, :comment]])
   end
 end
