@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   get 'success/:id', to: 'orders#success', as: 'orders_success'
 
   # payment
-  post "create-checkouts-session", to: 'carts#create_checkout_session'
+  post "create-checkouts-session", to: 'carts#create_checkout_session', as: :create_checkout_session
   # get 'checkouts', to: 'checkouts#show'
   # get 'billing', to: 'billings#show'
 end

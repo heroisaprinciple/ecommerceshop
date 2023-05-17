@@ -1,13 +1,15 @@
 class CartsController < ApplicationController
   def show
+    @cart_products = resource
+  end
+
+  def create_checkout_session
     current_user.set_payment_processor :stripe
     current_user.payment_processor.customer
 
     @cart_products = resource
 
-    # total_quantity = @cart_products.count
     total_amount = (@cart_products.sum(&:price).to_f * 100).to_i
-
     checkout_session = current_user.payment_processor.checkout(
       line_items: [{
                      quantity: 1,
@@ -27,11 +29,11 @@ class CartsController < ApplicationController
     redirect_to checkout_session.url, allow_other_host: true, status: 303
   end
 
-
   def add_product
     if user_signed_in?
       current_user.cart ||= Cart.create(user_id: current_user.id)
       current_user.cart.products << Product.find(params[:id])
+      binding.pry
     else
       user_cart = Cart.new
       if session[:product_ids].present?

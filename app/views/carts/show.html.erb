@@ -38,7 +38,7 @@
   <div class="text-center">
     <div class="buy-block" data-turbo='false'>
       <span class="text-3xl font-bold text-gray-900 dark:text-white"> </span>
-      <%= form_with url: orders_path(@order), method: :post do |f| %>
+      <%= form_with url: :create_checkout_session, method: :post do |f| %>
       <%= f.hidden_field :id, value: current_user.cart.id %>
       <%= f.submit 'Order', class: "button-grey"%>
       <% end %>
