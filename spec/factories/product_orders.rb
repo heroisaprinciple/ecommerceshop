@@ -21,8 +21,8 @@
 #
 FactoryBot.define do
   factory :product_order do
-    association :product
-    association :order
+    product { association :product }
+    order { association :order }
     quantity { 1 }
   end
 end

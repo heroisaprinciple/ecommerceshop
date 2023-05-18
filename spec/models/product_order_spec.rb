@@ -21,6 +21,13 @@
 #
 require 'rails_helper'
 
-RSpec.describe ProductOrder, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+RSpec.describe OrderDetail, type: :model do
+  describe 'associations' do
+    it { is_expected.to belong_to(:order) }
+    it { is_expected.to belong_to(:address) }
+  end
+
+  describe 'nested attributes' do
+    it { is_expected.to accept_nested_attributes_for(:address) }
+  end
 end

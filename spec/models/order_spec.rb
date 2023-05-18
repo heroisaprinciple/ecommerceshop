@@ -4,7 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  ordered_at :datetime
-#  status     :string
+#  status     :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  user_id    :bigint
@@ -20,5 +20,31 @@
 require 'rails_helper'
 
 RSpec.describe Order, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:order) { create(:order) }
+  describe "enums" do
+    it { is_expected.to define_enum_for(:status).with_values(pending: 0, completed: 1, cancelled: 2) }
+  end
+
+  describe "associations" do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to have_many(:product_orders).dependent(:destroy) }
+    it { is_expected.to have_many(:products).through(:product_orders) }
+    it { is_expected.to have_one(:order_detail).dependent(:destroy) }
+  end
+
+  describe "validations" do
+    it { is_expected.to validate_presence_of(:status) }
+    it { is_expected.to validate_presence_of(:ordered_at) }
+  end
+
+  describe "default attributes" do
+    it "sets the default status to 'pending'" do
+      expect(order.status).to eq('0')
+    end
+  end
+
+  describe "nested attributes" do
+    it { is_expected.to accept_nested_attributes_for(:order_detail) }
+  end
 end
+

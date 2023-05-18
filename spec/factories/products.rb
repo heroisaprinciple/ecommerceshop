@@ -27,10 +27,14 @@ FactoryBot.define do
 
     trait :sleek_concrete_watch do
       name { "Sleek Concrete Watch" }
+      description { Faker::Lorem.paragraph(sentence_count: 1) }
+      price { Faker::Commerce.unique.price }
     end
 
     trait :mediocre_wooden_chair do
       name { "Mediocre Wooden Chair" }
+      description { Faker::Lorem.paragraph(sentence_count: 1) }
+      price { Faker::Commerce.unique.price }
     end
 
     trait :invalid do

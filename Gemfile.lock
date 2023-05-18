@@ -267,6 +267,7 @@ GEM
       ffi (~> 1.12)
     ruby2_keywords (0.0.5)
     rubyzip (2.3.2)
+    securerandom (0.1.1)
     selenium-webdriver (4.9.1)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
@@ -351,6 +352,7 @@ DEPENDENCIES
   rails (~> 7.0.4)
   receipts (~> 2.0)
   rspec-rails
+  securerandom
   selenium-webdriver
   shoulda-matchers (~> 5.0)
   simple_form!

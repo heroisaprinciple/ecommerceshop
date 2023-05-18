@@ -83,6 +83,7 @@ end
 gem 'simplecov', require: false, group: :test
 gem 'devise'
 gem 'kaminari'
+gem 'securerandom'
 
 gem 'pry', '~> 0.13.1'
 

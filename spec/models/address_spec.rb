@@ -22,5 +22,17 @@
 require 'rails_helper'
 
 RSpec.describe Address, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'associations' do
+    it { is_expected.to belong_to(:user).optional }
+    it { is_expected.to have_one(:order_detail).dependent(:destroy) }
+  end
+
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:country) }
+    it { is_expected.to validate_length_of(:country).is_at_most(56) }
+    it { is_expected.to validate_presence_of(:city) }
+    it { is_expected.to validate_length_of(:city).is_at_most(40) }
+    it { is_expected.to validate_presence_of(:street) }
+    it { is_expected.to validate_length_of(:street).is_at_most(40) }
+  end
 end

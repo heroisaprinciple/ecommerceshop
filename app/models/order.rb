@@ -4,7 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  ordered_at :datetime
-#  status     :string
+#  status     :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  user_id    :bigint
@@ -18,12 +18,19 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Order < ApplicationRecord
-  belongs_to :user, optional: true
+  # TODO: show on refactoring lesson: enums are always before associations
+  enum status: { pending: 0, completed: 1, cancelled: 2 }
+
+  belongs_to :user
   has_many :product_orders, dependent: :destroy
   has_many :products, through: :product_orders
   has_one :order_detail, dependent: :destroy
 
-  attribute :status, :string, default: 'processing'
+  # TODO: default attrs in the model
+  attribute :status, :string, default: Order.statuses[:pending]
+
+  validates :status, presence: true
+  validates :ordered_at, presence: true
 
   accepts_nested_attributes_for :order_detail
 end

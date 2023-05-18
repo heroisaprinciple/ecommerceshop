@@ -9,11 +9,15 @@
 #  updated_at :datetime         not null
 #
 require 'rails_helper'
-require 'factory_bot'
 
 RSpec.describe Category, type: :model do
   describe "association" do
     it { is_expected.to have_many(:products) }
+  end
+
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:priority) }
   end
 
   describe "scopes" do
@@ -26,7 +30,6 @@ RSpec.describe Category, type: :model do
         # category1 = create(:category, priority: 2)
         # category2 = create(:category, priority: 1)
         # category3 = create(:category, priority: 3)
-        binding.pry
 
         ordered_categories = Category.ordered
 

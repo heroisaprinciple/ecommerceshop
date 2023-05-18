@@ -34,6 +34,12 @@ RSpec.describe Product, type: :model do
     it { is_expected.to have_many(:orders).through(:product_orders).dependent(:destroy) }
   end
 
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:description) }
+    it { should validate_presence_of(:price) }
+  end
+
   describe ".paginate_order" do
     it "returns all products" do
       expect(Product.paginate_order).to include(product1, product2)
