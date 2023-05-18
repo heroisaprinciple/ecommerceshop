@@ -11,53 +11,53 @@
     <%= devise_error_messages! %>
 
     <div class="mb-4">
-      <%= f.label :first_name, class: 'block text-l font-medium text-gray-900 dark:text-white' %>
+      <%= f.label :first_name, class: 'label-devise' %>
       <%= f.text_field :first_name,
                        placeholder: "Allison",
-                       class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                       class: 'devise-input'
       %>
     </div>
 
     <div class="mb-4">
-      <%= f.label :last_name, class: 'block text-l font-medium text-gray-900 dark:text-white' %>
+      <%= f.label :last_name, class: 'label-devise' %>
       <%= f.text_field :last_name,
                        placeholder: "Johnson",
-                       class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                       class: 'devise-input'
       %>
     </div>
 
     <div class="mb-4">
-      <%= f.label :email, class: 'block text-l font-medium text-gray-900 dark:text-white' %>
+      <%= f.label :email, class: 'label-devise' %>
       <%= f.email_field :email,
                         autocomplete: "email",
                         placeholder: "user@example.com",
-                        class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                        class: 'devise-input'
       %>
 
     </div>
 
     <div class="mb-4">
-      <%= f.label :password, class: 'block text-l font-medium text-gray-900 dark:text-white' %>
+      <%= f.label :password, class: 'label-devise' %>
       <% if @minimum_password_length %>
         <small><em class="text-gray-600">(<%= @minimum_password_length %> characters minimum)</em></small>
       <% end %>
       <%= f.password_field :password,
                            autocomplete: "new-password",
-                           class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                           class: 'devise-input'
       %>
     </div>
 
     <div class="mb-4">
-      <%= f.label :password_confirmation, class: 'block text-l font-medium text-gray-900 dark:text-white' %>
+      <%= f.label :password_confirmation, class: 'label-devise' %>
       <%= f.password_field :password_confirmation,
                            autocomplete: "new-password",
-                           class: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                           class: 'devise-input'
       %>
     </div>
 
     <div class="mb-4">
       <%= f.button "Sign Up",
-                   class: 'mt-4 text-white bg-teal-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:focus:ring-teal-900',
+                   class: 'button-navy',
                    data: { disable_with: "<i class='fa-solid fa-circle-notch fa-spin'></i> Signing in..."}
       %>
     </div>
