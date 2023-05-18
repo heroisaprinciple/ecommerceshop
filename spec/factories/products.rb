@@ -24,6 +24,9 @@
 FactoryBot.define do
   factory :product do
     category { association :category }
+    name { Faker::Name.name }
+    description { Faker::Lorem.paragraph(sentence_count: 1) }
+    price { Faker::Commerce.unique.price }
 
     trait :sleek_concrete_watch do
       name { "Sleek Concrete Watch" }
