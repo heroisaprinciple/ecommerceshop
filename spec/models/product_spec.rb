@@ -24,5 +24,20 @@
 require 'rails_helper'
 
 RSpec.describe Product, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:product1) { create(:product, :mediocre_wooden_chair) }
+  let(:product2) { create(:product, :sleek_concrete_watch) }
+
+  describe "associations" do
+    # TODO: it could be should instead of is_expected
+    it { is_expected.to belong_to(:category) }
+    it { is_expected.to have_many(:product_orders).dependent(:destroy) }
+    it { is_expected.to have_many(:orders).through(:product_orders).dependent(:destroy) }
+  end
+
+  describe ".paginate_order" do
+    it "returns all products" do
+      expect(Product.paginate_order).to include(product1, product2)
+    end
+  end
 end
+

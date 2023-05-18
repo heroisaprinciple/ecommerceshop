@@ -4,6 +4,7 @@ class CartsController < ApplicationController
   end
 
   def create_checkout_session
+    Stripe.api_key = ENV['STRIPE_API_KEY']
     current_user.set_payment_processor :stripe
     current_user.payment_processor.customer
 
@@ -33,7 +34,6 @@ class CartsController < ApplicationController
     if user_signed_in?
       current_user.cart ||= Cart.create(user_id: current_user.id)
       current_user.cart.products << Product.find(params[:id])
-      binding.pry
     else
       user_cart = Cart.new
       if session[:product_ids].present?
