@@ -32,5 +32,5 @@ class Product < ApplicationRecord
   validates :description, presence: true
   validates :price, presence: true
 
-  scope :paginate_order, -> {select("*")}
+  scope :paginate_order, -> { select("*") }
 end
