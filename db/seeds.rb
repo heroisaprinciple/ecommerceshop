@@ -5,16 +5,17 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-3.times do
-  Category.create!(
-    priority: Faker::Number.number(digits: 2)
-  )
-end
+categories = Category.create([
+                               { priority: Faker::Number.number(digits: 2) },
+                               { priority: Faker::Number.number(digits: 2) },
+                               { priority: Faker::Number.number(digits: 2) }
+                             ])
 
 10.times do
   Product.create!(
     name: Faker::Commerce.unique.product_name,
     price: Faker::Commerce.unique.price,
-    description: Faker::Lorem.paragraph(sentence_count: 1)
+    description: Faker::Lorem.paragraph(sentence_count: 1),
+    category: categories.sample
   )
 end

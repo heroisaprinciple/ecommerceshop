@@ -13,45 +13,47 @@
         <ul class="flex flex-col p-4 mt-4 border bg-stone-600  rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 dark:border-gray-700">
           <li>
             <%= link_to 'Home', root_path,
-                        class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
+                        class: "block px-4 py-2 hover:text-white"%>
           </li>
           <li>
-            <%= link_to 'Categories', categories_path,
-                        class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
+            <%= link_to 'Categories/Products', categories_path,
+                        class: "block px-4 py-2 hover:text-white"%>
           </li>
-          <li>
-            <%= link_to 'Products', products_path,
-                        class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
-          </li>
+          <% if user_signed_in? %>
+            <li>
+              <%= link_to "Account #{current_user.first_name}", root_path,
+                          class: "block px-4 py-2 text-violet-300"%>
+            </li>
+          <% end  %>
           <% if !user_signed_in? %>
             <li>
               <%= link_to 'Sign in', user_session_path,
-                          class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"%>
+                          class: "block px-4 py-2 hover:text-white"%>
             </li>
           <% end %>
           <% if current_user %>
             <li>
-                <%= link_to("Log out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete },
-                          class: 'block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white')%>
+                <%= link_to "Log out", destroy_user_session_path, method: :delete, data: { turbo_method: :delete },
+                          class: 'block px-4 py-2 hover:text-white' %>
             </li>
           <% end %>
 
             <li>
               <%=  link_to 'Cart', show_cart_path,
-                               class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white" %>
+                               class: "block px-4 py-2 text-sm hover:text-white" %>
             </li>
 
           <% if user_signed_in? %>
             <li>
               <%=  link_to 'Orders', orders_path,
-                           class: "block px-4 py-2 text-sm text-green-200 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white" %>
+                           class: "block px-4 py-2 text-sm hover:text-white" %>
             </li>
           <% end %>
 
           <% if !user_signed_in? %>
           <li>
-                <%=  link_to 'Sign up', new_user_session_path,
-                        class: "block px-4 py-2 text-sm text-green-200 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"  %>
+                <%=  link_to 'Sign up', new_user_registration_path,
+                        class: "block px-4 py-2 text-sm text-green-200 hover:text-white"  %>
           </li>
           <%  end %>
         </ul>

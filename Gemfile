@@ -56,6 +56,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri mingw x64_mingw ]
   gem 'rspec-rails'
   gem "factory_bot", "~> 6.2"
+  gem 'factory_bot_rails'
   gem 'faker'
 end
 
@@ -74,16 +75,36 @@ group :test do
   # Use system testing [https://guides.rub
   # yonrails.org/testing.html#system-testing]
   gem "capybara"
+  gem 'shoulda-matchers', '~> 5.0'
   gem "selenium-webdriver"
   gem "webdrivers"
 end
 
+gem 'rails-controller-testing'
 gem 'simplecov', require: false, group: :test
 gem 'devise'
 gem 'kaminari'
+
+gem 'securerandom'
 
 gem 'pry', '~> 0.13.1'
 
 gem 'simple_form', git: 'https://github.com/loqimean/simple_form.git'
 gem 'country_select'
 gem "annotate", "~> 3.2"
+
+gem 'stripe', '~> 8.5'
+gem "pay", "~> 6.0"
+
+# To use Stripe, also include:
+
+# To use Braintree + PayPal, also include:
+gem "braintree", "~> 4.7"
+
+# To use Paddle, also include:
+gem "paddle_pay", "~> 0.2"
+
+# To use Receipts gem for creating invoice and receipt PDFs, also include:
+gem "receipts", "~> 2.0"
+
+gem 'friendly_id', '~> 5.4.0'

@@ -1,5 +1,47 @@
+# == Schema Information
+#
+# Table name: categories
+#
+#  id         :bigint           not null, primary key
+#  name       :string
+#  priority   :integer
+#  slug       :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_categories_on_slug  (slug) UNIQUE
+#
 require 'rails_helper'
 
 RSpec.describe Category, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "association" do
+    it { is_expected.to have_many(:products) }
+  end
+
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:priority) }
+  end
+
+  describe "scopes" do
+    describe ".ordered" do
+      let!(:category1) { create(:category, :other, priority: 2) }
+      let!(:category2) { create(:category, :home, priority: 1) }
+      let!(:category3) { create(:category, :clothes, priority: 3) }
+      it "returns categories ordered by priority in descending order" do
+        # TODO: show on refactoring lesson (using let helper is a better practice)
+        # category1 = create(:category, priority: 2)
+        # category2 = create(:category, priority: 1)
+        # category3 = create(:category, priority: 3)
+
+        ordered_categories = Category.ordered
+
+        expect(ordered_categories).to eq([category3, category1, category2])
+      end
+    end
+  end
 end
+
+

@@ -9,14 +9,10 @@
         <h7 class="tracking-tight text-green-900"> <%= @product.description %></h7>
       </a>
       <div class="flex items-center justify-between">
-        <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= @product.price %>$</span>
+        <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= @product.price %>€</span>
         <%= button_to 'Add to cart', add_product_to_cart_path(@product),
                       class: "button-grey"
         %>
-      </div>
-      <div>
-        <%= link_to "Show this product", product_path(@product.id),
-                    class: "button-underline" %>
       </div>
     </div>
   </div>

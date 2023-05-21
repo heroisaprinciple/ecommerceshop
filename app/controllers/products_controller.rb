@@ -14,6 +14,6 @@ class ProductsController < ApplicationController
   end
 
   def resource
-    collection.find(params[:id])
+    collection.friendly.find(params[:slug])
   end
 end

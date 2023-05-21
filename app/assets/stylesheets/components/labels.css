@@ -1,0 +1,5 @@
+@layer base {
+    .label-devise {
+        @apply block text-lg font-medium text-gray-900 dark:text-white
+    }
+}

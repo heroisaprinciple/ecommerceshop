@@ -6,12 +6,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <!-- special for forms --> 
     <script src="https://kit.fontawesome.com/3cf9b4a2ab.js" crossorigin="anonymous"></script>
-
-
+    <script src="https://js.stripe.com/v3/"></script>
     <%= javascript_importmap_tags %>
   </head>
 
@@ -22,6 +20,5 @@
     </main>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
-
   </body>
 </html>

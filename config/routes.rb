@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
-  resources :categories, only: [:index, :show]
-  resources :products, only: [:index, :show]
+  resources :categories, param: :slug do
+    resources :products, param: :slug
+  end
+
   resources :orders
-  devise_for :users, controllers: { sessions: 'users/sessions' }
+  # resources :webhooks, only: [:create]
+  devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations',
+                                    passwords: 'users/passwords' }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
@@ -15,4 +19,7 @@ Rails.application.routes.draw do
 
   # order
   get 'success/:id', to: 'orders#success', as: 'orders_success'
+
+  # payment
+  post "create-checkouts-session", to: 'carts#create_checkout_session', as: :create_checkout_session
 end
