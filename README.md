@@ -22,6 +22,3 @@ Payment is made using Stripe API.</h4>
 6. Run `rails s` in one terminal.
 
 Good. Let's go.
-
-
-
