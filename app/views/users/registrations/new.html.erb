@@ -39,8 +39,9 @@
     <div class="mb-4">
       <%= f.label :password, class: 'label-devise' %>
       <% if @minimum_password_length %>
-        <small><em class="text-gray-600">(<%= @minimum_password_length %> characters minimum)</em></small>
-      <% end %>
+        <small><em class="text-gray-600">(should be <%= @minimum_password_length %> characters minimum and contain at least one uppercase letter, one digit and one special character)</em></small>
+
+    <% end %>
       <%= f.password_field :password,
                            autocomplete: "new-password",
                            class: 'devise-input'

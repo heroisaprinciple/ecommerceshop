@@ -33,4 +33,9 @@ class User < ApplicationRecord
 
   validates :first_name, presence: true
   validates :last_name, presence: true
+
+  PASSWORD_REGEX = /\A(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!$.#^&]).{6,}\z/
+  validates :password, presence: true, format: { with: PASSWORD_REGEX,
+                                                 message: 'must be at least 8 characters long and contain at least one uppercase letter, one digit and one special character' }
+
 end
