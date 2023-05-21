@@ -8,6 +8,7 @@ class OrdersController < ApplicationController
   def show
     @order = resource
     @sum = sum
+    # I have no new action and objects are associated in show
     @order.build_order_detail
     @order.order_detail.build_address
   end
@@ -35,9 +36,7 @@ class OrdersController < ApplicationController
     @order = resource
     if @order.update(order_params)
       @order.status = 'completed'
-      if @order.save
-        redirect_to orders_success_path(@order.id)
-      end
+      redirect_to orders_success_path(@order.id)
     else
       render :show, status: 422
     end
