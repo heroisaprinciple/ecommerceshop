@@ -12,15 +12,10 @@
 
       <div class="buy-block" data-turbo='false'>
         <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= product.price %>€</span>
-        <%#= form_with url: checkouts_path, method: :post do |f| %>
-          <%#= f.hidden_field :id, value: product.id %>
-          <%#= f.submit 'Buy now', class: "button-grey"%>
-        <%# end %>
-
       </div>
 
       <div class="mt-3">
-        <%= link_to "Show this product", category_product_path(id: product.id),
+        <%= link_to "Show this product", category_product_path(slug: product.slug),
                     class: "button-underline" %>
       </div>
     </div>

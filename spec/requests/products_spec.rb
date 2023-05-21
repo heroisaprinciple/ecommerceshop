@@ -8,13 +8,13 @@ RSpec.describe ProductsController, type: :request do
 
   describe 'GET #index' do
     it 'returns a successful response' do
-      get category_products_path(category_id: category.id)
+      get category_products_path(category_slug: category.slug)
 
       expect(response).to be_successful
     end
 
     it 'assigns @products with paginated collection' do
-       get category_products_path(category_id: category.id)
+       get category_products_path(category_slug: category.slug)
 
        expect(assigns(:products)).to eq(products)
     end
@@ -22,7 +22,7 @@ RSpec.describe ProductsController, type: :request do
 
   describe 'GET #show' do
     it "is successful" do
-      get category_product_path(id: sleek_concrete_watch.id, category_id: category.id)
+      get category_product_path(slug: sleek_concrete_watch.slug, category_slug: category.slug)
 
       expect(response).to be_successful
       expect(response).to render_template(:show)

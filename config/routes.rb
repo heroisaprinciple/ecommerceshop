@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  resources :categories do
-    resources :products
+  resources :categories, param: :slug do
+    resources :products, param: :slug
   end
 
   resources :orders

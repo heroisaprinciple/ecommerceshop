@@ -47,7 +47,8 @@ class CartsController < ApplicationController
   end
   def destroy_product
     if user_signed_in?
-      current_user.cart.products.destroy(params[:id])
+      product = Product.find(params[:id])
+      current_user.cart.products.destroy(product)
     else
       session[:product_ids].delete(params[:id].to_i)
     end

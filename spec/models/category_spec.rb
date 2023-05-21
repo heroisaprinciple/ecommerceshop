@@ -5,8 +5,13 @@
 #  id         :bigint           not null, primary key
 #  name       :string
 #  priority   :integer
+#  slug       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#
+# Indexes
+#
+#  index_categories_on_slug  (slug) UNIQUE
 #
 require 'rails_helper'
 
