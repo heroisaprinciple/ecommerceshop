@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
+
   resources :categories, param: :slug do
     resources :products, param: :slug
   end
