@@ -9,9 +9,9 @@ Rails.application.routes.draw do
   # resources :webhooks, only: [:create]
   devise_for :users, controllers: { sessions: 'users/sessions', registrations: 'users/registrations',
                                     passwords: 'users/passwords' }
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
+  resources :webhooks, only: [:create]
+
   root "shops#index"
 
   # get 'cart/'

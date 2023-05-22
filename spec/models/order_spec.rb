@@ -22,7 +22,7 @@ require 'rails_helper'
 RSpec.describe Order, type: :model do
   let(:order) { create(:order) }
   describe "enums" do
-    it { is_expected.to define_enum_for(:status).with_values(pending: 0, completed: 1, cancelled: 2) }
+    it { is_expected.to define_enum_for(:status).with_values(pending: 0, complete: 1, canceled: 2) }
   end
 
   describe "associations" do

@@ -19,10 +19,6 @@ FactoryBot.define do
     name { "Home" }
     priority { Faker::Number.number(digits: 2) }
 
-    trait :home do
-      name { "Home" }
-    end
-
     trait :clothes do
       name { "Clothes" }
     end
