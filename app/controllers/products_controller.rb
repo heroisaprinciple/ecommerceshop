@@ -10,10 +10,10 @@ class ProductsController < ApplicationController
   private
 
   def collection
-    Product.paginate_order.page(params[:page])
+    Product.find_by_category_slug(params[:category_slug])
   end
 
   def resource
-    collection.friendly.find(params[:slug])
+    Product.friendly.find(params[:slug])
   end
 end

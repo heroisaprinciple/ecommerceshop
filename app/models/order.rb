@@ -19,7 +19,7 @@
 #
 class Order < ApplicationRecord
   # TODO: show on refactoring lesson: enums are always before associations
-  enum status: { pending: 0, completed: 1, cancelled: 2 }
+  enum status: { pending: 0, complete: 1, canceled: 2 }
 
   belongs_to :user
   has_many :product_orders, dependent: :destroy

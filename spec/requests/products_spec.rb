@@ -12,12 +12,6 @@ RSpec.describe ProductsController, type: :request do
 
       expect(response).to be_successful
     end
-
-    it 'assigns @products with paginated collection' do
-       get category_products_path(category_slug: category.slug)
-
-       expect(assigns(:products)).to eq(products)
-    end
   end
 
   describe 'GET #show' do

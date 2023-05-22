@@ -16,6 +16,10 @@
 require 'rails_helper'
 
 RSpec.describe Category, type: :model do
+  let!(:category1) { create(:category, :other, priority: 2) }
+  let!(:category2) { create(:category, priority: 1) }
+  let!(:category3) { create(:category, :clothes, priority: 3) }
+
   describe "association" do
     it { is_expected.to have_many(:products) }
   end
@@ -27,9 +31,6 @@ RSpec.describe Category, type: :model do
 
   describe "scopes" do
     describe ".ordered" do
-      let!(:category1) { create(:category, :other, priority: 2) }
-      let!(:category2) { create(:category, :home, priority: 1) }
-      let!(:category3) { create(:category, :clothes, priority: 3) }
       it "returns categories ordered by priority in descending order" do
         # TODO: show on refactoring lesson (using let helper is a better practice)
         # category1 = create(:category, priority: 2)
@@ -40,6 +41,21 @@ RSpec.describe Category, type: :model do
 
         expect(ordered_categories).to eq([category3, category1, category2])
       end
+    end
+  end
+
+  describe 'friendly_id' do
+    it 'should generate a new friendly_id if name changed' do
+      original_slug = category1.slug
+      category1.name = 'New Product Name'
+      category1.save
+      expect(category1.slug).not_to eq(original_slug)
+    end
+
+    it 'should generate a new friendly_id if slug is blank' do
+      category = FactoryBot.create(:category, slug: nil)
+      category.save
+      expect(category.slug).not_to be_nil
     end
   end
 end

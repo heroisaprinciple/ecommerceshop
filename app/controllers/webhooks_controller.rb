@@ -6,7 +6,7 @@ class WebhooksController < ApplicationController
 
     begin
       event = Stripe::Webhook.construct_event(
-        payload, sig_header, Rails.application.credentials[:stripe][:webhook]
+        payload, sig_header, Rails.application.credentials[:stripe][:signing_secret]
       )
     rescue JSON::ParserError => e
       status 400
@@ -16,12 +16,16 @@ class WebhooksController < ApplicationController
       return
     end
 
-    # Handle the event
     case event.type
     when 'payment_intent.succeeded'
-      payment_intent = event.data.object
-    else
-      puts "Unhandled event type: #{event.type}"
+      intent = event['data']['object']
+      puts "Succeeded:", intent['id']
+      # Fulfill the customer's purchase
+    when 'payment_intent.payment_failed'
+      intent = event['data']['object']
+      error_message = intent['last_payment_error'] && intent['last_payment_error']['message']
+      puts "Failed:", intent['id'], error_message
+      # Notify the customer that payment failed
     end
 
     status 200
