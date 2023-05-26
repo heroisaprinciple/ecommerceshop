@@ -11,7 +11,7 @@ class CartsController < ApplicationController
 
       @cart_products = resource
 
-      total_amount = (@cart_products.sum(&:price).to_f * 100).to_i
+      # total_amount = (@cart_products.sum(&:price).to_f * 100).to_i
       checkout_session = current_user.payment_processor.checkout(
         line_items: [{
                        quantity: 1,
@@ -24,7 +24,7 @@ class CartsController < ApplicationController
                        }
                      }],
         mode: 'payment',
-        success_url: 'https://localhost:3000/success?session_id={CHECKOUT_SESSION_ID}',
+        success_url: success_url + "?session_id={CHECKOUT_SESSION_ID}",
         cancel_url: 'https://localhost:3000/cancel'
       )
 
@@ -32,26 +32,38 @@ class CartsController < ApplicationController
     end
   end
 
+  def success
+    @cart_products = resource
+    total_amount = (@cart_products.sum(&:price).to_f * 100).to_i
+    payment_session = Stripe::Checkout::Session.retrieve(current_user.payment_processor.checkout.id, expand: ["line_items"])
+
+    if payment_session.payment_status == 'paid'
+      @payment = Payment.create(sum: total_amount, status: Payment.statuses[:paid], paid_at: Time.current,
+                                payment_method: 'cart',
+                                user_id: current_user.id, cart_id: current_user.cart.id)
+    end
+  end
+
   def add_product
     if user_signed_in?
       current_user.cart ||= Cart.create(user_id: current_user.id)
-      current_user.cart.products << Product.find(params[:id])
+      cart_service = Carts::UsersCartsService.new(current_user.cart)
     else
-      user_cart = Cart.new
-      if session[:product_ids].present?
-        session[:product_ids] << params[:id].to_i
-      else
-        session[:product_ids] = [params[:id].to_i]
-      end
+      cart_service = Carts::LocalCartsService.instance
     end
+
+    cart_service.add_to_cart(Product.find(params[:id]).id, params.dig(:cart_product, :quantity))
   end
+
   def destroy_product
     if user_signed_in?
-      product = Product.find(params[:id])
-      current_user.cart.products.destroy(product)
+      cart_service = Carts::UsersCartsService.new(current_user.cart)
     else
-      session[:product_ids].delete(params[:id].to_i)
+      cart_service = Carts::LocalCartsService.instance
     end
+    # If send slugs (instead of ids), then LocalCartsService won't work
+    cart_service.delete_from_cart(Product.find(params[:id]).id, params.dig(:cart_product, :quantity))
+
     redirect_to show_cart_path
   end
 
@@ -59,9 +71,10 @@ class CartsController < ApplicationController
 
   def resource
     if user_signed_in? && current_user.cart.present?
-      current_user.cart.products
-    elsif session[:product_ids].present?
-      Product.where(id: session[:product_ids])
+      current_user.cart.cart_products.includes(:product)
+    elsif Carts::LocalCartsService.instance.local_cart.present?
+      cart_service = Carts::LocalCartsService.instance
+      cart_service.local_cart.map { |product| CartProduct.new(product_id: product[:id], quantity: product[:quantity]) }
     end
   end
 end

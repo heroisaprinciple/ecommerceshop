@@ -1,14 +1,12 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user!, only: [:index]
   def index
-    if user_signed_in?
-      @orders = collection
-    end
+    @orders = collection
   end
 
   def show
     @order = resource
     @sum = sum
-    # I have no new action and objects are associated in show
     @order.build_order_detail
     @order.order_detail.build_address
   end
@@ -43,17 +41,13 @@ class OrdersController < ApplicationController
   end
 
   def sum
-    # Faker generates prices in '0.4701e2' form, this is why go_f is necessary here
-    @order.products.pluck(:price).map {|el| el.to_f}.sum
+    @order.products.pluck(:price).map(&:to_f).sum
   end
 
   private
+
   def collection
-    if user_signed_in?
-      current_user.orders
-    elsif session[:product_ids].present?
-      Order.all
-    end
+    current_user.orders
   end
 
   def resource

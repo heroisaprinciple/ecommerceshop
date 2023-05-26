@@ -1,5 +1,5 @@
 <div class="flex items-center">
-  <div class="w-full element-card">
+  <div class="w-full element-card w-60">
     <div class="bg-stone-600 rounded-tl-lg hover:rounded-tr-3xl">
       <div class="p-3 gif"></div>
     </div>
@@ -10,9 +10,11 @@
       </a>
       <div class="flex items-center justify-between">
         <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= @product.price %>€</span>
-        <%= button_to 'Add to cart', add_product_to_cart_path(@product),
-                      class: "button-grey"
-        %>
+
+        <%= simple_form_for :cart_product, url: add_product_to_cart_path(@product), method: :post do |f| %>
+          <%= f.input :quantity, label: false, include_blank: false, input_html: { value: 1 } %>
+          <%= f.button :submit, "Buy",  class: "button-grey" %>
+        <% end %>
       </div>
     </div>
   </div>

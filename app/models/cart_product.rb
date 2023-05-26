@@ -3,6 +3,7 @@
 # Table name: cart_products
 #
 #  id         :bigint           not null, primary key
+#  quantity   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  cart_id    :bigint           not null
@@ -21,4 +22,6 @@
 class CartProduct < ApplicationRecord
   belongs_to :cart
   belongs_to :product
+
+  validates_presence_of :quantity
 end

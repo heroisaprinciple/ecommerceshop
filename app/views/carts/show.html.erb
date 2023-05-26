@@ -6,30 +6,32 @@
 
 <% if @cart_products.blank? %>
   <div class="m-8">
-    <h1 class="text-white text-center"> Your cart is empty. Go fill it :) </h1>
+    <h1 class="text-white text-center"> Your cart is empty. Go fill it 🙂 </h1>
   </div>
 <% else %>
   <div class="center-grid">
-      <% @cart_products.each do |cart_prod| %>
-        <div class="element-card">
-          <div class="bg-stone-600 rounded-tl-lg hover:rounded-tr-3xl">
-            <div class="p-3 gif"></div>
-          </div>
-          <div class="px-5 pb-5">
-            <a href="#">
-              <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"> <%= cart_prod.name %></h5>
-              <h7 class="text-l font-semibold tracking-tight text-gray-900 dark:text-white"> <%= cart_prod.description %></h7>
-            </a>
+    <% @cart_products.each do |cart_prod| %>
+      <div class="element-card w-60">
+        <div class="bg-stone-600 rounded-tl-lg hover:rounded-tr-3xl">
+          <div class="p-3 gif"></div>
+        </div>
+        <div class="px-5 pb-5">
+          <a href="#">
+            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"> <%= cart_prod.product.name %></h5>
+            <h7 class="text-l font-semibold tracking-tight text-gray-900 dark:text-white"> <%= cart_prod.product.description %></h7>
+          </a>
 
-            <div class="mt-3">
-              <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= cart_prod.price %>€</span>
+          <div class="mt-3">
+            <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= cart_prod.product.price %>€</span>
 
-                <%= button_to "Remove from cart", destroy_cart_product_path(cart_prod), method: :delete,
-                  class: 'button-underline' %>
-            </div>
+            <%= simple_form_for :cart_product, url: destroy_cart_product_path(cart_prod.product), method: :delete do |f| %>
+              <%= f.input :quantity, collection: (1..cart_prod.quantity).to_a, label: false, include_blank: false, input_html: { value: 1 } %>
+              <%= f.button :submit, "Delete", class: "button-grey" %>
+            <% end %>
           </div>
         </div>
-      <% end %>
+      </div>
+    <% end %>
   </div>
 <% end %>
 
@@ -39,13 +41,11 @@
     <div class="buy-block" data-turbo='false'>
       <span class="text-3xl font-bold text-gray-900 dark:text-white"> </span>
       <%= form_with url: :create_checkout_session, method: :post do |f| %>
-      <%= f.hidden_field :id, value: current_user.cart.id %>
-      <%= f.submit 'Order', class: "button-grey"%>
+        <%= f.hidden_field :id, value: current_user.cart.id if current_user.present? %>
+        <%= f.submit 'Order', class: "button-grey"%>
       <% end %>
     </div>
   </div>
 <% end %>
 
 <div class="p-3"></div>
-
-

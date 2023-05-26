@@ -110,4 +110,6 @@ gem "receipts", "~> 2.0"
 gem 'friendly_id', '~> 5.4.0'
 
 gem 'sass-rails', '~> 6.0'
+
 gem 'activeadmin'
+

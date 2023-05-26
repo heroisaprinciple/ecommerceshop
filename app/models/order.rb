@@ -18,7 +18,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Order < ApplicationRecord
-  # TODO: show on refactoring lesson: enums are always before associations
   enum status: { pending: 0, complete: 1, canceled: 2 }
 
   belongs_to :user
@@ -26,7 +25,6 @@ class Order < ApplicationRecord
   has_many :products, through: :product_orders
   has_one :order_detail, dependent: :destroy
 
-  # TODO: default attrs in the model
   attribute :status, :string, default: Order.statuses[:pending]
 
   validates :status, presence: true

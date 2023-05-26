@@ -25,17 +25,13 @@ RSpec.describe Category, type: :model do
   end
 
   describe 'validations' do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:priority) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:priority) }
   end
 
   describe "scopes" do
     describe ".ordered" do
       it "returns categories ordered by priority in descending order" do
-        # TODO: show on refactoring lesson (using let helper is a better practice)
-        # category1 = create(:category, priority: 2)
-        # category2 = create(:category, priority: 1)
-        # category3 = create(:category, priority: 3)
 
         ordered_categories = Category.ordered
 
