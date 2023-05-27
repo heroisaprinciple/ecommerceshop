@@ -24,6 +24,7 @@ default: &default
 development:
   <<: *default
   url: <%= ENV["ECOMMERCE_DEV"] %>
+  database: ecommerceshop_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -58,6 +59,7 @@ development:
 test:
   <<: *default
   url: <%= ENV["ECOMMERCE_TEST"] %>
+  database: ecommerceshop_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -82,3 +84,4 @@ test:
 production:
   <<: *default
   url: <%= ENV["ECOMMERCE_PROD"] %>
+  database: ecommerceshop_production

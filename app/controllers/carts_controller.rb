@@ -10,19 +10,27 @@ class CartsController < ApplicationController
       current_user.payment_processor.customer
 
       @cart_products = resource
+      total_amount = (@cart_products.sum { |cart_prod| cart_prod.product.price.to_f * cart_prod.quantity * 100 }).to_i
 
-      # total_amount = (@cart_products.sum(&:price).to_f * 100).to_i
+      line_items = @cart_products.map do |item|
+         {
+          price_data: {
+            currency: "eur",
+            product_data: {
+              name: item.product.name,
+              description: item.product.description,
+              metadata: {
+                id: item.id
+              },
+            },
+            unit_amount: total_amount,
+          },
+          quantity: 1,
+        }
+      end
+
       checkout_session = current_user.payment_processor.checkout(
-        line_items: [{
-                       quantity: 1,
-                       price_data: {
-                         currency: 'eur',
-                         unit_amount: total_amount,
-                         product_data: {
-                           name: 'Cart Total'
-                         }
-                       }
-                     }],
+        line_items,
         mode: 'payment',
         success_url: success_url + "?session_id={CHECKOUT_SESSION_ID}",
         cancel_url: 'https://localhost:3000/cancel'

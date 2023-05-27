@@ -23,5 +23,5 @@ class CartProduct < ApplicationRecord
   belongs_to :cart
   belongs_to :product
 
-  validates_presence_of :quantity
+  validates :quantity, presence: true
 end

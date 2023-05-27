@@ -113,3 +113,6 @@ gem 'sass-rails', '~> 6.0'
 
 gem 'activeadmin'
 
+gem 'faraday', '~> 2.7', '>= 2.7.5'
+
+gem 'rails-html-sanitizer', '~> 1.6'
