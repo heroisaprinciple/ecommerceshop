@@ -156,7 +156,8 @@ CREATE TABLE public.cart_products (
     cart_id bigint NOT NULL,
     product_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    quantity integer
 );
 
 
@@ -986,8 +987,8 @@ COPY public.addresses (id, country, city, street, comment, user_id, created_at, 
 --
 
 COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
-environment	test	2023-01-18 13:53:49.793655	2023-05-17 16:42:59.632482
-schema_sha1	fff16ea0f7a66f4bafb5897878ca4b87912f7f32	2023-01-18 13:53:49.803014	2023-05-17 16:42:59.641534
+environment	test	2023-05-27 20:19:25.736803	2023-05-27 20:19:25.736803
+schema_sha1	6a54a8d65b3d0c4b1865d882d8b1deb560628ec4	2023-05-27 20:19:25.748809	2023-05-27 20:19:25.748809
 \.
 
 
@@ -1003,7 +1004,7 @@ COPY public.billings (id, created_at, updated_at) FROM stdin;
 -- Data for Name: cart_products; Type: TABLE DATA; Schema: public; Owner: arina
 --
 
-COPY public.cart_products (id, cart_id, product_id, created_at, updated_at) FROM stdin;
+COPY public.cart_products (id, cart_id, product_id, created_at, updated_at, quantity) FROM stdin;
 \.
 
 
@@ -1124,19 +1125,18 @@ COPY public.products (id, name, price, amount_left, created_at, updated_at, desc
 --
 
 COPY public.schema_migrations (version) FROM stdin;
-20230118130222
+20230526183614
 20230118144804
 20230119132326
-20230124163629
 20230121215555
 20230121215808
 20230122121742
 20230123075058
+20230123075616
+20230124163629
+20230124164106
 20230131155008
 20230131155048
-20230516164226
-20230123075616
-20230124164106
 20230207111752
 20230207162009
 20230207165310
@@ -1148,6 +1148,7 @@ COPY public.schema_migrations (version) FROM stdin;
 20230515083751
 20230515083848
 20230516125556
+20230516164226
 20230518135714
 20230521142239
 20230521142308
@@ -1198,28 +1199,28 @@ SELECT pg_catalog.setval('public.billings_id_seq', 1, false);
 -- Name: cart_products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.cart_products_id_seq', 41, true);
+SELECT pg_catalog.setval('public.cart_products_id_seq', 1, false);
 
 
 --
 -- Name: carts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.carts_id_seq', 65, true);
+SELECT pg_catalog.setval('public.carts_id_seq', 1, false);
 
 
 --
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.categories_id_seq', 1487, true);
+SELECT pg_catalog.setval('public.categories_id_seq', 1, false);
 
 
 --
 -- Name: friendly_id_slugs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.friendly_id_slugs_id_seq', 1247, true);
+SELECT pg_catalog.setval('public.friendly_id_slugs_id_seq', 1, false);
 
 
 --
@@ -1233,7 +1234,7 @@ SELECT pg_catalog.setval('public.order_details_id_seq', 1, false);
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.orders_id_seq', 21, true);
+SELECT pg_catalog.setval('public.orders_id_seq', 1, false);
 
 
 --
@@ -1296,7 +1297,7 @@ SELECT pg_catalog.setval('public.product_orders_id_seq', 1, false);
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.products_id_seq', 747, true);
+SELECT pg_catalog.setval('public.products_id_seq', 1, false);
 
 
 --
@@ -1310,7 +1311,7 @@ SELECT pg_catalog.setval('public.shops_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 93, true);
+SELECT pg_catalog.setval('public.users_id_seq', 1, false);
 
 
 --

@@ -5,7 +5,7 @@
 #  id             :bigint           not null, primary key
 #  paid_at        :datetime
 #  payment_method :string
-#  status         :string
+#  status         :integer
 #  sum            :float
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -25,5 +25,18 @@
 require 'rails_helper'
 
 RSpec.describe Payment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe 'validations' do
+    it { is_expected.to validate_presence_of(:status) }
+    it { is_expected.to validate_presence_of(:paid_at) }
+    it { is_expected.to validate_presence_of(:sum) }
+  end
+
+  describe 'associations' do
+    it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:cart) }
+  end
+
+  describe 'enums' do
+    it { is_expected.to define_enum_for(:status).with_values(unpaid: 0, paid: 1, canceled: 2) }
+  end
 end

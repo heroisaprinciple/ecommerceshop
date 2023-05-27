@@ -5,7 +5,7 @@
 #  id             :bigint           not null, primary key
 #  paid_at        :datetime
 #  payment_method :string
-#  status         :string
+#  status         :integer
 #  sum            :float
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null

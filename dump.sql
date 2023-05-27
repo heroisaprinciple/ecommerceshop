@@ -705,12 +705,10 @@ CREATE TABLE public.products (
     id bigint NOT NULL,
     name character varying,
     price numeric,
-    amount_left integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     description character varying,
     category_id bigint,
-    sales_count integer DEFAULT 0 NOT NULL,
     stripe_price_id character varying,
     slug character varying
 );
@@ -1007,14 +1005,14 @@ COPY public.billings (id, created_at, updated_at) FROM stdin;
 COPY public.cart_products (id, cart_id, product_id, created_at, updated_at, quantity) FROM stdin;
 11	3	2	2023-05-19 17:31:33.189648	2023-05-19 17:31:33.189648	\N
 12	3	2	2023-05-19 17:31:34.874591	2023-05-19 17:31:34.874591	\N
-18	1	2	2023-05-22 09:40:26.299511	2023-05-22 09:40:26.299511	\N
 19	4	12	2023-05-22 09:54:41.372453	2023-05-22 09:54:41.372453	\N
 20	4	6	2023-05-22 09:54:51.733925	2023-05-22 09:54:51.733925	\N
 21	5	12	2023-05-22 10:18:49.199388	2023-05-22 10:18:49.199388	\N
 22	5	2	2023-05-22 10:18:59.25076	2023-05-22 10:18:59.25076	\N
-25	1	9	2023-05-25 20:34:43.088181	2023-05-25 20:34:43.088181	\N
-26	6	6	2023-05-26 19:20:52.039663	2023-05-26 19:20:56.460951	5
-27	6	5	2023-05-26 19:38:17.282473	2023-05-26 19:38:17.282473	7
+27	6	5	2023-05-26 19:38:17.282473	2023-05-27 13:14:46.103108	1
+28	6	9	2023-05-27 13:15:30.584905	2023-05-27 14:31:38.442105	4
+29	1	6	2023-05-27 19:07:11.98491	2023-05-27 19:07:11.98491	3
+30	1	2	2023-05-27 19:16:08.275686	2023-05-27 19:16:08.275686	2
 \.
 
 
@@ -1097,11 +1095,11 @@ COPY public.pay_charges (id, customer_id, subscription_id, processor_id, amount,
 --
 
 COPY public.pay_customers (id, owner_type, owner_id, processor, processor_id, "default", data, deleted_at, created_at, updated_at) FROM stdin;
+1	User	1	stripe	cus_Nue0ONAcNF2516	t	{}	\N	2023-05-17 18:03:56.573839	2023-05-27 19:52:37.417635
 2	User	4	stripe	cus_NvNvK5GXszJHuD	t	{}	\N	2023-05-19 17:31:39.388598	2023-05-19 17:31:39.831576
 3	User	6	stripe	cus_NwOEBUiSAM3uAs	t	{}	\N	2023-05-22 09:54:56.809821	2023-05-22 09:54:57.214962
 4	User	7	stripe	cus_NwOc4in27j7pYE	t	{}	\N	2023-05-22 10:19:06.194599	2023-05-22 10:22:19.458881
-1	User	1	stripe	cus_Nue0ONAcNF2516	t	{}	\N	2023-05-17 18:03:56.573839	2023-05-26 16:57:05.163912
-5	User	8	stripe	cus_NwRFSbyi27nQE5	t	{}	\N	2023-05-22 13:01:20.627694	2023-05-26 19:41:52.175541
+5	User	8	stripe	cus_NwRFSbyi27nQE5	t	{}	\N	2023-05-22 13:01:20.627694	2023-05-27 14:52:01.925219
 \.
 
 
@@ -1160,18 +1158,18 @@ COPY public.product_orders (id, amount, order_id, product_id, created_at, update
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: arina
 --
 
-COPY public.products (id, name, price, amount_left, created_at, updated_at, description, category_id, sales_count, stripe_price_id, slug) FROM stdin;
-2	Synergistic Wool Hat	10.86	\N	2023-05-17 17:04:20.689917	2023-05-21 15:02:22.436008	Incidunt architecto rerum.	3	0	\N	synergistic-wool-hat
-3	Fantastic Leather Coat	83.01	\N	2023-05-17 17:04:20.704564	2023-05-21 15:02:22.443661	Delectus ratione doloribus.	3	0	\N	fantastic-leather-coat
-4	Ergonomic Silk Keyboard	45.67	\N	2023-05-17 17:04:20.711772	2023-05-21 15:02:22.448909	Optio ut et.	1	0	\N	ergonomic-silk-keyboard
-5	Sleek Concrete Watch	7.97	\N	2023-05-17 17:04:20.719077	2023-05-21 15:02:22.455069	Eaque et sit.	2	0	\N	sleek-concrete-watch
-6	Mediocre Wooden Chair	6.8	\N	2023-05-17 17:04:20.726609	2023-05-21 15:02:22.460983	Possimus itaque nam.	2	0	\N	mediocre-wooden-chair
-7	Lightweight Leather Lamp	37.28	\N	2023-05-17 17:04:20.733581	2023-05-21 15:02:22.466374	Tempora laboriosam sit.	2	0	\N	lightweight-leather-lamp
-8	Synergistic Cotton Wallet	10.37	\N	2023-05-17 17:04:20.740951	2023-05-21 15:02:22.472229	Ea quisquam nihil.	2	0	\N	synergistic-cotton-wallet
-9	Sleek Bronze Hat	98.04	\N	2023-05-17 17:04:20.748733	2023-05-21 15:02:22.477941	Alias fuga minima.	1	0	\N	sleek-bronze-hat
-10	Sleek Concrete Keyboard	64.11	\N	2023-05-17 17:04:20.755722	2023-05-21 15:02:22.483432	Laudantium ducimus ut.	2	0	\N	sleek-concrete-keyboard
-11	Incredible Copper Keyboard	25.18	\N	2023-05-17 17:04:20.763331	2023-05-21 15:02:22.489412	Sit nulla error.	1	0	\N	incredible-copper-keyboard
-12	Green Cactus	33.33	\N	2023-05-21 18:58:57.215145	2023-05-21 19:04:22.383151	Green cactus brings you joy. 	10	0		green-cactus
+COPY public.products (id, name, price, created_at, updated_at, description, category_id, stripe_price_id, slug) FROM stdin;
+2	Synergistic Wool Hat	10.86	2023-05-17 17:04:20.689917	2023-05-21 15:02:22.436008	Incidunt architecto rerum.	3	\N	synergistic-wool-hat
+3	Fantastic Leather Coat	83.01	2023-05-17 17:04:20.704564	2023-05-21 15:02:22.443661	Delectus ratione doloribus.	3	\N	fantastic-leather-coat
+4	Ergonomic Silk Keyboard	45.67	2023-05-17 17:04:20.711772	2023-05-21 15:02:22.448909	Optio ut et.	1	\N	ergonomic-silk-keyboard
+5	Sleek Concrete Watch	7.97	2023-05-17 17:04:20.719077	2023-05-21 15:02:22.455069	Eaque et sit.	2	\N	sleek-concrete-watch
+6	Mediocre Wooden Chair	6.8	2023-05-17 17:04:20.726609	2023-05-21 15:02:22.460983	Possimus itaque nam.	2	\N	mediocre-wooden-chair
+7	Lightweight Leather Lamp	37.28	2023-05-17 17:04:20.733581	2023-05-21 15:02:22.466374	Tempora laboriosam sit.	2	\N	lightweight-leather-lamp
+8	Synergistic Cotton Wallet	10.37	2023-05-17 17:04:20.740951	2023-05-21 15:02:22.472229	Ea quisquam nihil.	2	\N	synergistic-cotton-wallet
+9	Sleek Bronze Hat	98.04	2023-05-17 17:04:20.748733	2023-05-21 15:02:22.477941	Alias fuga minima.	1	\N	sleek-bronze-hat
+10	Sleek Concrete Keyboard	64.11	2023-05-17 17:04:20.755722	2023-05-21 15:02:22.483432	Laudantium ducimus ut.	2	\N	sleek-concrete-keyboard
+11	Incredible Copper Keyboard	25.18	2023-05-17 17:04:20.763331	2023-05-21 15:02:22.489412	Sit nulla error.	1	\N	incredible-copper-keyboard
+12	Green Cactus	33.33	2023-05-21 18:58:57.215145	2023-05-21 19:04:22.383151	Green cactus brings you joy. 	10		green-cactus
 \.
 
 
@@ -1226,6 +1224,8 @@ COPY public.schema_migrations (version) FROM stdin;
 20230521170235
 20230522081253
 20230526183614
+20230527202129
+20230527202544
 \.
 
 
@@ -1278,7 +1278,7 @@ SELECT pg_catalog.setval('public.billings_id_seq', 1, false);
 -- Name: cart_products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.cart_products_id_seq', 27, true);
+SELECT pg_catalog.setval('public.cart_products_id_seq', 30, true);
 
 
 --

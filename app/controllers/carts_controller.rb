@@ -10,7 +10,6 @@ class CartsController < ApplicationController
       current_user.payment_processor.customer
 
       @cart_products = resource
-      total_amount = (@cart_products.sum { |cart_prod| cart_prod.product.price.to_f * cart_prod.quantity * 100 }).to_i
 
       line_items = @cart_products.map do |item|
          {
@@ -20,20 +19,20 @@ class CartsController < ApplicationController
               name: item.product.name,
               description: item.product.description,
               metadata: {
-                id: item.id
+                id: item.product.id
               },
             },
-            unit_amount: total_amount,
+            unit_amount_decimal: item.product.price * 100,
           },
-          quantity: 1,
+          quantity: item.quantity,
         }
       end
 
       checkout_session = current_user.payment_processor.checkout(
-        line_items,
+        line_items: line_items,
         mode: 'payment',
         success_url: success_url + "?session_id={CHECKOUT_SESSION_ID}",
-        cancel_url: 'https://localhost:3000/cancel'
+        cancel_url: cancel_url
       )
 
       redirect_to checkout_session.url, allow_other_host: true, status: 303
@@ -41,9 +40,12 @@ class CartsController < ApplicationController
   end
 
   def success
+    Stripe.api_key = ENV['STRIPE_API_KEY']
     @cart_products = resource
-    total_amount = (@cart_products.sum(&:price).to_f * 100).to_i
-    payment_session = Stripe::Checkout::Session.retrieve(current_user.payment_processor.checkout.id, expand: ["line_items"])
+    total_amount = total(@cart_products)
+    # TODO: run a migration to add stripe_session_id as checkout_session.id to users
+    # current_user.checkout_session_id = checkout_session.id
+    # payment_session = Stripe::Checkout::Session.retrieve(current_user.checkout_session_id)
 
     if payment_session.payment_status == 'paid'
       @payment = Payment.create(sum: total_amount, status: Payment.statuses[:paid], paid_at: Time.current,
@@ -52,11 +54,17 @@ class CartsController < ApplicationController
     end
   end
 
+  def cancel
+
+  end
+
   def add_product
     if user_signed_in?
       current_user.cart ||= Cart.create(user_id: current_user.id)
       cart_service = Carts::UsersCartsService.new(current_user.cart)
     else
+      # like a session storage for products
+      # singleton is used to store products
       cart_service = Carts::LocalCartsService.instance
     end
 
@@ -76,6 +84,10 @@ class CartsController < ApplicationController
   end
 
   private
+
+  def total(cart_products)
+    (cart_products.sum { |cart_prod| cart_prod.product.price.to_f * cart_prod.quantity * 100 }).to_i
+  end
 
   def resource
     if user_signed_in? && current_user.cart.present?

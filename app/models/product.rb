@@ -3,11 +3,9 @@
 # Table name: products
 #
 #  id              :bigint           not null, primary key
-#  amount_left     :integer
 #  description     :string
 #  name            :string
 #  price           :decimal(, )
-#  sales_count     :integer          default(0), not null
 #  slug            :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
