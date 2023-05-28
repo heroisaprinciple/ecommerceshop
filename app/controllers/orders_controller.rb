@@ -1,30 +1,18 @@
 class OrdersController < ApplicationController
+  before_action :authenticate_user!
   def index
-    if user_signed_in?
-      @orders = collection
-    end
+    @orders = collection
   end
 
   def show
     @order = resource
-    @sum = sum
-    # I have no new action and objects are associated in show
-    @order.build_order_detail
-    @order.order_detail.build_address
   end
 
-  def create
-    if user_signed_in?
-      @order = current_user.orders.create(ordered_at: DateTime.current, user_id: current_user.id)
-      @order.products << current_user.cart.products
-      @order.save
-      current_user.cart.products.clear
-    elsif session[:product_ids]
-      @order = Order.new(ordered_at: DateTime.current)
-      @order.products << Product.find(session[:product_ids])
-      @order.save
-    end
-    redirect_to order_path(@order.id)
+  def edit
+    @order = resource
+
+    @order.build_order_detail
+    @order.order_detail.build_address
   end
 
   def success
@@ -35,25 +23,17 @@ class OrdersController < ApplicationController
   def update
     @order = resource
     if @order.update(order_params)
-      @order.status = 'completed'
+      @order.status = Order.statuses[:complete]
       redirect_to orders_success_path(@order.id)
     else
       render :show, status: 422
     end
   end
 
-  def sum
-    # Faker generates prices in '0.4701e2' form, this is why go_f is necessary here
-    @order.products.pluck(:price).map {|el| el.to_f}.sum
-  end
-
   private
+
   def collection
-    if user_signed_in?
-      current_user.orders
-    elsif session[:product_ids].present?
-      Order.all
-    end
+    current_user.orders
   end
 
   def resource

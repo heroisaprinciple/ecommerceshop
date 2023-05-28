@@ -10,8 +10,6 @@ class CategoriesController < ApplicationController
   private
 
   def collection
-    # TODO: show on refactoring lesson: it is always better to use SQL context in the scope (in the model)
-    # Category.order(priority: :desc)
     Category.ordered
   end
 

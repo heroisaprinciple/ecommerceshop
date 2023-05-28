@@ -1,18 +1,20 @@
 <div class="flex items-center">
-  <div class="w-full element-card">
+  <div class="w-full element-card w-60">
     <div class="bg-stone-600 rounded-tl-lg hover:rounded-tr-3xl">
       <div class="p-3 gif"></div>
     </div>
     <div class="px-5 pb-5">
       <a href="#">
         <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"> <%= @product.name %></h5>
-        <h7 class="tracking-tight text-green-900"> <%= @product.description %></h7>
+        <h5 class="tracking-tight text-green-900"> <%= @product.description %></h5>
       </a>
       <div class="flex items-center justify-between">
         <span class="text-3xl font-bold text-gray-900 dark:text-white"> <%= @product.price %>€</span>
-        <%= button_to 'Add to cart', add_product_to_cart_path(@product),
-                      class: "button-grey"
-        %>
+
+        <%= simple_form_for :cart_product, url: add_product_to_cart_path(@product), method: :post do |f| %>
+          <%= f.input :quantity, label: false, include_blank: false, input_html: { value: 1 } %>
+          <%= f.button :submit, "Buy",  class: "button-grey" %>
+        <% end %>
       </div>
     </div>
   </div>

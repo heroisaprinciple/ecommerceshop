@@ -3,6 +3,7 @@
 # Table name: cart_products
 #
 #  id         :bigint           not null, primary key
+#  quantity   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  cart_id    :bigint           not null
@@ -24,5 +25,9 @@ RSpec.describe CartProduct, type: :model do
   describe "associations" do
     it { is_expected.to belong_to(:cart) }
     it { is_expected.to belong_to(:product) }
+  end
+
+  describe "validates quantity" do
+    it { is_expected.to validate_presence_of(:quantity) }
   end
 end
