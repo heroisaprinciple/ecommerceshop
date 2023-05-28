@@ -6,7 +6,6 @@ class OrdersController < ApplicationController
 
   def show
     @order = resource
-    @sum = sum
   end
 
   def edit
@@ -29,10 +28,6 @@ class OrdersController < ApplicationController
     else
       render :show, status: 422
     end
-  end
-
-  def sum
-    @order.products.pluck(:price).map(&:to_f).sum
   end
 
   private

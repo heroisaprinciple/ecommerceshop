@@ -64,7 +64,7 @@ class CartsController < ApplicationController
   end
 
   def cancel
-
+    redirect_to root_path
   end
 
   def add_product
