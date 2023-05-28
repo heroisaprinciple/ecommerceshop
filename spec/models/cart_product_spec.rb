@@ -26,4 +26,8 @@ RSpec.describe CartProduct, type: :model do
     it { is_expected.to belong_to(:cart) }
     it { is_expected.to belong_to(:product) }
   end
+
+  describe "validates quantity" do
+    it { is_expected.to validate_presence_of(:quantity) }
+  end
 end

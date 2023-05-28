@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :authenticate_user!, only: [:index]
+  before_action :authenticate_user!
   def index
     @orders = collection
   end
@@ -7,22 +7,13 @@ class OrdersController < ApplicationController
   def show
     @order = resource
     @sum = sum
-    @order.build_order_detail
-    @order.order_detail.build_address
   end
 
-  def create
-    if user_signed_in?
-      @order = current_user.orders.create(ordered_at: DateTime.current, user_id: current_user.id)
-      @order.products << current_user.cart.products
-      @order.save
-      current_user.cart.products.clear
-    elsif session[:product_ids]
-      @order = Order.new(ordered_at: DateTime.current)
-      @order.products << Product.find(session[:product_ids])
-      @order.save
-    end
-    redirect_to order_path(@order.id)
+  def edit
+    @order = resource
+
+    @order.build_order_detail
+    @order.order_detail.build_address
   end
 
   def success
@@ -33,7 +24,7 @@ class OrdersController < ApplicationController
   def update
     @order = resource
     if @order.update(order_params)
-      @order.status = 'completed'
+      @order.status = Order.statuses[:complete]
       redirect_to orders_success_path(@order.id)
     else
       render :show, status: 422

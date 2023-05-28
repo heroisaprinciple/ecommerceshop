@@ -35,6 +35,8 @@ class CartsController < ApplicationController
         cancel_url: cancel_url
       )
 
+      session[:checkout_session_id] = checkout_session.id
+
       redirect_to checkout_session.url, allow_other_host: true, status: 303
     end
   end
@@ -43,14 +45,21 @@ class CartsController < ApplicationController
     Stripe.api_key = ENV['STRIPE_API_KEY']
     @cart_products = resource
     total_amount = total(@cart_products)
-    # TODO: run a migration to add stripe_session_id as checkout_session.id to users
-    # current_user.checkout_session_id = checkout_session.id
-    # payment_session = Stripe::Checkout::Session.retrieve(current_user.checkout_session_id)
+    payment_session = Stripe::Checkout::Session.retrieve(session[:checkout_session_id])
 
     if payment_session.payment_status == 'paid'
-      @payment = Payment.create(sum: total_amount, status: Payment.statuses[:paid], paid_at: Time.current,
+      @payment = Payment.create(sum: total_amount, status: Payment.statuses[:paid], paid_at: DateTime.current,
                                 payment_method: 'cart',
                                 user_id: current_user.id, cart_id: current_user.cart.id)
+
+      @order = Order.create(status: Order.statuses[:pending], ordered_at: DateTime.current,
+                            user_id: current_user.id, payment_id: @payment.id)
+
+      @order.products << current_user.cart.products
+
+      current_user.cart.products.destroy_all
+
+      redirect_to edit_order_path(id: @order.id)
     end
   end
 
