@@ -24,6 +24,8 @@ class Order < ApplicationRecord
   enum status: { pending: 0, complete: 1, canceled: 2 }
 
   belongs_to :user
+  belongs_to :payment
+
   has_many :product_orders, dependent: :destroy
   has_many :products, through: :product_orders
   has_one :order_detail, dependent: :destroy

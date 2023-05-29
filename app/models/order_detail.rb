@@ -26,4 +26,8 @@ class OrderDetail < ApplicationRecord
   belongs_to :address
 
   accepts_nested_attributes_for :address
+
+  def add_details(details)
+    assign_attributes(firstname: details[:firstname], lastname: details[:lastname], email: details[:email])
+  end
 end

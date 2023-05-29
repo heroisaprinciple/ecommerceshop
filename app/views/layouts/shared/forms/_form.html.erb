@@ -10,7 +10,7 @@
       <%= address_form.input :city %>
       <%= address_form.input :street %>
       <%= address_form.input :comment, as: :text %>
-      <% address_form.hidden_field :user_id, value: current_user.id %>
+      <%= address_form.hidden_field :user_id, value: current_user.id %>
     <% end %>
   <% end %>
   <%= form.button :submit, 'Confirm', class:"bg-green-600 text-white" %>

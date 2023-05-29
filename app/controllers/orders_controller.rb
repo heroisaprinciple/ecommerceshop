@@ -22,7 +22,10 @@ class OrdersController < ApplicationController
 
   def update
     @order = resource
-    if @order.update(order_params)
+    updated_order_params = order_params
+    updated_order_params[:order_detail_attributes] = updated_order_params[:order_detail_attributes].merge(get_order_details)
+
+    if @order.update(updated_order_params)
       @order.status = Order.statuses[:complete]
       redirect_to orders_success_path(@order.id)
     else
@@ -43,6 +46,14 @@ class OrdersController < ApplicationController
   def order_params
     params.require(:order).permit(:status,
                                   order_detail_attributes: [:first_name, :last_name, :email,
-                                                            address_attributes: [:country, :city, :street, :comment]])
+                                                            address_attributes: [:country, :city, :street, :comment, :user_id]])
+  end
+
+  def get_order_details
+    {
+      firstname: current_user.first_name,
+      lastname: current_user.last_name,
+      email: current_user.email
+    }
   end
 end

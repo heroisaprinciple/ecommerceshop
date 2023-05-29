@@ -30,6 +30,7 @@ RSpec.describe Order, type: :model do
 
   describe "associations" do
     it { is_expected.to belong_to(:user) }
+    it { is_expected.to belong_to(:payment) }
     it { is_expected.to have_many(:product_orders).dependent(:destroy) }
     it { is_expected.to have_many(:products).through(:product_orders) }
     it { is_expected.to have_one(:order_detail).dependent(:destroy) }
