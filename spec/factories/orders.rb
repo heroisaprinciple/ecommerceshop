@@ -23,6 +23,7 @@
 FactoryBot.define do
   factory :order do
     user { association :user }
+    payment { association :payment }
     status { Order.statuses[:pending] }
     ordered_at { Time.current }
   end
