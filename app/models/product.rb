@@ -20,7 +20,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (category_id => categories.id)
-#
+
 class Product < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: [:slugged, :finders, :history]
