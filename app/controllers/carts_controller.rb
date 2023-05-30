@@ -93,14 +93,15 @@ class CartsController < ApplicationController
   end
 
   def create_order(payment)
-    @order = Order.create(
-      status: Order.statuses[:pending],
-      ordered_at: DateTime.current,
-      user_id: current_user.id,
-      payment_id: payment.id
-    )
+    @order = OrderBuilder.build do |builder|
+      builder.set_status
+      builder.set_ordered_time
+      builder.set_user(current_user)
+      builder.set_payment(payment)
+      builder.set_products(current_user.cart.products)
+    end
 
-    @order.products << current_user.cart.products
+    @order.save
   end
 
   def clear_cart

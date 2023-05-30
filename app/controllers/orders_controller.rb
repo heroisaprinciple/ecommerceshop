@@ -1,3 +1,36 @@
+class OrderBuilder
+  attr_accessor :order
+
+  def self.build
+    builder = new
+    yield(builder)
+    builder.order
+  end
+
+  def initialize
+    @order = Order.new
+  end
+
+  def set_status
+    @order.status = Order.statuses[:pending]
+  end
+
+  def set_ordered_time
+    @order.ordered_at = DateTime.current
+  end
+
+  def set_user(user)
+    @order.user = user
+  end
+
+  def set_payment(payment)
+    @order.payment = payment
+  end
+
+  def set_products(products)
+    @order.products << products
+  end
+end
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   def index
@@ -26,7 +59,7 @@ class OrdersController < ApplicationController
     updated_order_params[:order_detail_attributes] = updated_order_params[:order_detail_attributes].merge(get_order_details)
 
     if @order.update(updated_order_params)
-      @order.status = Order.statuses[:complete]
+      @order.update(status: Order.statuses[:complete])
       redirect_to orders_success_path(@order.id)
     else
       render :show, status: 422
