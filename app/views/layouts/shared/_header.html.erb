@@ -21,7 +21,7 @@
           </li>
           <% if user_signed_in? %>
             <li>
-              <%= link_to "Account #{current_user.first_name}", root_path,
+              <%= link_to "Account #{current_user.first_name}", user_path(id: current_user.id),
                           class: "block px-4 py-2 text-violet-300"%>
             </li>
           <% end  %>
