@@ -15,10 +15,9 @@
 
   <body class="bg-stone-900">
     <%= render "layouts/shared/header" %>
+    <%= render 'layouts/shared/alerts' %>
     <main class="container mx-auto mt-20 px-5 flex flex-col">
       <%= yield %>
     </main>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
   </body>
 </html>
