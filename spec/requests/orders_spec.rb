@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe OrdersController, type: :request do
-  let!(:order) { create(:order) }
   include_context :authorize_user
+  let!(:order) { create(:order, user: current_user) }
 
   describe "GET #index" do
     it "is successful" do
@@ -19,7 +19,7 @@ RSpec.describe OrdersController, type: :request do
       expect(response).to be_successful
 
       expect(response).to render_template(:show)
-      expect(response.body).to include(order.id)
+      expect(response.body).to include(order.id.to_s)
     end
   end
 

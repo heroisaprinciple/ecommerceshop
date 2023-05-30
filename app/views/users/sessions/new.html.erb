@@ -2,6 +2,7 @@
 
 <div class="w-full max-w-xs mx-auto">
   <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <%= render "users/shared/error_messages" %>
     <div class="mb-6 text-center">
       <%= f.label :email, class: 'label-devise' %><br />
       <%= f.email_field :email, autofocus: true, autocomplete: "email",
