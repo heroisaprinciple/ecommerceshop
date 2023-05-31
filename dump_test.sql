@@ -342,7 +342,8 @@ CREATE TABLE public.orders (
     user_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    ordered_at timestamp(6) without time zone
+    ordered_at timestamp(6) without time zone,
+    payment_id bigint NOT NULL
 );
 
 
@@ -626,7 +627,7 @@ ALTER SEQUENCE public.pay_webhooks_id_seq OWNED BY public.pay_webhooks.id;
 
 CREATE TABLE public.payments (
     id bigint NOT NULL,
-    status character varying,
+    status integer,
     sum double precision,
     payment_method character varying,
     user_id bigint NOT NULL,
@@ -705,12 +706,10 @@ CREATE TABLE public.products (
     id bigint NOT NULL,
     name character varying,
     price numeric,
-    amount_left integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     description character varying,
     category_id bigint,
-    sales_count integer DEFAULT 0 NOT NULL,
     stripe_price_id character varying,
     slug character varying
 );
@@ -797,9 +796,9 @@ CREATE TABLE public.users (
     remember_created_at timestamp(6) without time zone,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    phone character varying,
     first_name character varying,
-    last_name character varying
+    last_name character varying,
+    stripe_customer_id character varying
 );
 
 
@@ -987,8 +986,8 @@ COPY public.addresses (id, country, city, street, comment, user_id, created_at, 
 --
 
 COPY public.ar_internal_metadata (key, value, created_at, updated_at) FROM stdin;
-environment	test	2023-05-27 20:19:25.736803	2023-05-27 20:19:25.736803
-schema_sha1	6a54a8d65b3d0c4b1865d882d8b1deb560628ec4	2023-05-27 20:19:25.748809	2023-05-27 20:19:25.748809
+environment	test	2023-05-29 14:34:13.844209	2023-05-29 14:34:13.844209
+schema_sha1	556dbfb14e6997d2c815375c03ecdd459fa026fe	2023-05-29 14:34:13.854432	2023-05-29 14:34:13.854432
 \.
 
 
@@ -1044,7 +1043,7 @@ COPY public.order_details (id, firstname, lastname, email, order_id, address_id,
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: arina
 --
 
-COPY public.orders (id, status, user_id, created_at, updated_at, ordered_at) FROM stdin;
+COPY public.orders (id, status, user_id, created_at, updated_at, ordered_at, payment_id) FROM stdin;
 \.
 
 
@@ -1116,7 +1115,7 @@ COPY public.product_orders (id, amount, order_id, product_id, created_at, update
 -- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: arina
 --
 
-COPY public.products (id, name, price, amount_left, created_at, updated_at, description, category_id, sales_count, stripe_price_id, slug) FROM stdin;
+COPY public.products (id, name, price, created_at, updated_at, description, category_id, stripe_price_id, slug) FROM stdin;
 \.
 
 
@@ -1125,7 +1124,7 @@ COPY public.products (id, name, price, amount_left, created_at, updated_at, desc
 --
 
 COPY public.schema_migrations (version) FROM stdin;
-20230526183614
+20230528172710
 20230118144804
 20230119132326
 20230121215555
@@ -1155,6 +1154,11 @@ COPY public.schema_migrations (version) FROM stdin;
 20230521142954
 20230521170235
 20230522081253
+20230526183614
+20230527202129
+20230527202544
+20230528150133
+20230528170241
 \.
 
 
@@ -1170,7 +1174,7 @@ COPY public.shops (id, created_at, updated_at) FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: arina
 --
 
-COPY public.users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, created_at, updated_at, phone, first_name, last_name) FROM stdin;
+COPY public.users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, created_at, updated_at, first_name, last_name, stripe_customer_id) FROM stdin;
 \.
 
 
@@ -1206,21 +1210,21 @@ SELECT pg_catalog.setval('public.cart_products_id_seq', 1, false);
 -- Name: carts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.carts_id_seq', 1, false);
+SELECT pg_catalog.setval('public.carts_id_seq', 44, true);
 
 
 --
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.categories_id_seq', 1, false);
+SELECT pg_catalog.setval('public.categories_id_seq', 207, true);
 
 
 --
 -- Name: friendly_id_slugs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.friendly_id_slugs_id_seq', 1, false);
+SELECT pg_catalog.setval('public.friendly_id_slugs_id_seq', 309, true);
 
 
 --
@@ -1234,7 +1238,7 @@ SELECT pg_catalog.setval('public.order_details_id_seq', 1, false);
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.orders_id_seq', 1, false);
+SELECT pg_catalog.setval('public.orders_id_seq', 38, true);
 
 
 --
@@ -1283,7 +1287,7 @@ SELECT pg_catalog.setval('public.pay_webhooks_id_seq', 1, false);
 -- Name: payments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.payments_id_seq', 1, false);
+SELECT pg_catalog.setval('public.payments_id_seq', 35, true);
 
 
 --
@@ -1297,7 +1301,7 @@ SELECT pg_catalog.setval('public.product_orders_id_seq', 1, false);
 -- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.products_id_seq', 1, false);
+SELECT pg_catalog.setval('public.products_id_seq', 96, true);
 
 
 --
@@ -1311,7 +1315,7 @@ SELECT pg_catalog.setval('public.shops_id_seq', 1, false);
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 1, false);
+SELECT pg_catalog.setval('public.users_id_seq', 152, true);
 
 
 --
@@ -1582,6 +1586,13 @@ CREATE INDEX index_order_details_on_order_id ON public.order_details USING btree
 
 
 --
+-- Name: index_orders_on_payment_id; Type: INDEX; Schema: public; Owner: arina
+--
+
+CREATE INDEX index_orders_on_payment_id ON public.orders USING btree (payment_id);
+
+
+--
 -- Name: index_orders_on_user_id; Type: INDEX; Schema: public; Owner: arina
 --
 
@@ -1761,6 +1772,14 @@ ALTER TABLE ONLY public.addresses
 
 ALTER TABLE ONLY public.product_orders
     ADD CONSTRAINT fk_rails_72071d5a6c FOREIGN KEY (order_id) REFERENCES public.orders(id);
+
+
+--
+-- Name: orders fk_rails_84d308e2db; Type: FK CONSTRAINT; Schema: public; Owner: arina
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_rails_84d308e2db FOREIGN KEY (payment_id) REFERENCES public.payments(id);
 
 
 --

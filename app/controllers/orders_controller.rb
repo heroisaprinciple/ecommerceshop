@@ -31,6 +31,7 @@ class OrderBuilder
     @order.products << products
   end
 end
+
 class OrdersController < ApplicationController
   before_action :authenticate_user!
   def index

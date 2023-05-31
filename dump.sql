@@ -342,7 +342,8 @@ CREATE TABLE public.orders (
     user_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    ordered_at timestamp(6) without time zone
+    ordered_at timestamp(6) without time zone,
+    payment_id bigint NOT NULL
 );
 
 
@@ -626,7 +627,7 @@ ALTER SEQUENCE public.pay_webhooks_id_seq OWNED BY public.pay_webhooks.id;
 
 CREATE TABLE public.payments (
     id bigint NOT NULL,
-    status character varying,
+    status integer,
     sum double precision,
     payment_method character varying,
     user_id bigint NOT NULL,
@@ -795,9 +796,9 @@ CREATE TABLE public.users (
     remember_created_at timestamp(6) without time zone,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
-    phone character varying,
     first_name character varying,
-    last_name character varying
+    last_name character varying,
+    stripe_customer_id character varying
 );
 
 
@@ -977,6 +978,19 @@ COPY public.active_admin_comments (id, namespace, body, resource_type, resource_
 --
 
 COPY public.addresses (id, country, city, street, comment, user_id, created_at, updated_at) FROM stdin;
+1	AR	Buenos-Aires 	Pipa Pup st., house 2	Leave next to the door, please.	\N	2023-05-28 18:20:12.436544	2023-05-28 18:20:12.436544
+2	AZ	Baku	Baku st, 138	Leave next to the door	\N	2023-05-28 18:33:57.124644	2023-05-28 18:33:57.124644
+3	AZ	Baku	Baku st, 138	please ziz	\N	2023-05-28 18:43:38.24083	2023-05-28 18:43:38.24083
+4	UA	Kyiv	Sydney str	213123213ashhshhshs	\N	2023-05-29 17:09:11.947651	2023-05-29 17:09:11.947651
+5	AM	Erevan	EEEEE str., 23	weeeeeeeeeee	\N	2023-05-29 17:23:15.331218	2023-05-29 17:23:15.331218
+6	AQ	Antarctica	assddsda	sdadsadasdasasdasdsads	8	2023-05-29 17:50:28.857892	2023-05-29 17:53:26.239306
+7	AU	Sydney	Sydney str, 123	sdkgdsghdsgsdfgdshgkg	\N	2023-05-29 17:57:30.474329	2023-05-29 17:57:30.474329
+8	AT	sasaADSSDASDADSASAD	SADSDASADDSA		1	2023-05-29 17:58:17.75702	2023-05-29 17:58:17.75702
+9	UA	Lviv	sadsadsadsad	sdasdasdadassdaasdasd	1	2023-05-29 18:05:30.666939	2023-05-29 18:05:30.666939
+10	AQ	Antarctica	Sydney str	52525425	8	2023-05-30 12:40:27.173136	2023-05-30 12:40:27.173136
+11	UA	Lviv	Sydney str	ffsdfsdfds	8	2023-05-30 12:48:15.157755	2023-05-30 12:48:15.157755
+12	UA	Lviv	sdsadad	sdasdasda	8	2023-05-30 12:59:08.489342	2023-05-30 12:59:08.489342
+13	AO	Anggggola	asdddsadas	sdaaaaaaaaaaaaaaa	8	2023-05-30 13:08:38.994776	2023-05-30 13:08:38.994776
 \.
 
 
@@ -1009,10 +1023,8 @@ COPY public.cart_products (id, cart_id, product_id, created_at, updated_at, quan
 20	4	6	2023-05-22 09:54:51.733925	2023-05-22 09:54:51.733925	\N
 21	5	12	2023-05-22 10:18:49.199388	2023-05-22 10:18:49.199388	\N
 22	5	2	2023-05-22 10:18:59.25076	2023-05-22 10:18:59.25076	\N
-27	6	5	2023-05-26 19:38:17.282473	2023-05-27 13:14:46.103108	1
-28	6	9	2023-05-27 13:15:30.584905	2023-05-27 14:31:38.442105	4
-29	1	6	2023-05-27 19:07:11.98491	2023-05-27 19:07:11.98491	3
-30	1	2	2023-05-27 19:16:08.275686	2023-05-27 19:16:08.275686	2
+41	6	6	2023-05-30 17:57:25.094084	2023-05-30 17:57:25.094084	1
+42	6	9	2023-05-30 18:21:28.318806	2023-05-30 18:21:28.318806	1
 \.
 
 
@@ -1071,6 +1083,14 @@ COPY public.friendly_id_slugs (id, slug, sluggable_id, sluggable_type, scope, cr
 --
 
 COPY public.order_details (id, firstname, lastname, email, order_id, address_id, created_at, updated_at) FROM stdin;
+1	\N	\N	\N	4	1	2023-05-28 18:20:12.449368	2023-05-28 18:20:12.449368
+3	\N	\N	\N	5	3	2023-05-28 18:43:38.243948	2023-05-28 18:43:38.243948
+4	\N	\N	\N	6	4	2023-05-29 17:09:11.962782	2023-05-29 17:09:11.962782
+8	Ari	Sof	valcat552@gmail.com	7	8	2023-05-29 17:58:17.761169	2023-05-29 17:58:17.761169
+9	Ari	Sof	valcat552@gmail.com	8	9	2023-05-29 18:05:30.674953	2023-05-29 18:05:30.674953
+11	Ted	Lasso	lasso@gmail.com	9	11	2023-05-30 12:48:15.162965	2023-05-30 12:48:15.162965
+12	Ted	Lasso	lasso@gmail.com	10	12	2023-05-30 12:59:08.4961	2023-05-30 12:59:08.4961
+13	Ted	Lasso	lasso@gmail.com	12	13	2023-05-30 13:08:38.998707	2023-05-30 13:08:38.998707
 \.
 
 
@@ -1078,7 +1098,19 @@ COPY public.order_details (id, firstname, lastname, email, order_id, address_id,
 -- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: arina
 --
 
-COPY public.orders (id, status, user_id, created_at, updated_at, ordered_at) FROM stdin;
+COPY public.orders (id, status, user_id, created_at, updated_at, ordered_at, payment_id) FROM stdin;
+1	0	8	2023-05-28 17:17:23.767762	2023-05-28 17:17:23.767762	2023-05-28 17:17:23.729356	5
+2	0	8	2023-05-28 17:18:32.247286	2023-05-28 17:18:32.247286	2023-05-28 17:18:32.230313	6
+3	0	8	2023-05-28 17:47:15.222052	2023-05-28 17:47:15.222052	2023-05-28 17:47:15.210024	7
+4	0	8	2023-05-28 18:09:35.744931	2023-05-28 18:20:12.43193	2023-05-28 18:09:35.739005	8
+5	0	8	2023-05-28 18:32:27.245769	2023-05-28 18:43:38.23777	2023-05-28 18:32:27.240415	9
+6	0	1	2023-05-29 17:08:41.016541	2023-05-29 17:09:11.942029	2023-05-29 17:08:40.987039	10
+7	0	1	2023-05-29 17:22:27.858072	2023-05-29 17:58:17.753286	2023-05-29 17:22:27.843402	11
+8	0	1	2023-05-29 18:05:09.892756	2023-05-29 18:05:30.662522	2023-05-29 18:05:09.862863	12
+9	1	8	2023-05-30 12:31:25.072111	2023-05-30 12:48:15.173597	2023-05-30 12:31:25.03673	15
+11	0	8	2023-05-30 12:58:36.518219	2023-05-30 12:58:36.518219	2023-05-30 12:58:36.486515	17
+10	1	8	2023-05-30 12:53:33.494305	2023-05-30 12:59:08.505949	2023-05-30 12:53:33.44228	16
+12	1	8	2023-05-30 13:08:18.674969	2023-05-30 13:08:39.004996	2023-05-30 13:08:18.630703	18
 \.
 
 
@@ -1095,11 +1127,11 @@ COPY public.pay_charges (id, customer_id, subscription_id, processor_id, amount,
 --
 
 COPY public.pay_customers (id, owner_type, owner_id, processor, processor_id, "default", data, deleted_at, created_at, updated_at) FROM stdin;
-1	User	1	stripe	cus_Nue0ONAcNF2516	t	{}	\N	2023-05-17 18:03:56.573839	2023-05-27 19:52:37.417635
 2	User	4	stripe	cus_NvNvK5GXszJHuD	t	{}	\N	2023-05-19 17:31:39.388598	2023-05-19 17:31:39.831576
 3	User	6	stripe	cus_NwOEBUiSAM3uAs	t	{}	\N	2023-05-22 09:54:56.809821	2023-05-22 09:54:57.214962
 4	User	7	stripe	cus_NwOc4in27j7pYE	t	{}	\N	2023-05-22 10:19:06.194599	2023-05-22 10:22:19.458881
-5	User	8	stripe	cus_NwRFSbyi27nQE5	t	{}	\N	2023-05-22 13:01:20.627694	2023-05-27 14:52:01.925219
+1	User	1	stripe	cus_Nue0ONAcNF2516	t	{}	\N	2023-05-17 18:03:56.573839	2023-05-29 18:04:41.645217
+5	User	8	stripe	cus_NwRFSbyi27nQE5	t	{}	\N	2023-05-22 13:01:20.627694	2023-05-30 13:08:00.569184
 \.
 
 
@@ -1143,6 +1175,21 @@ COPY public.payments (id, status, sum, payment_method, user_id, cart_id, paid_at
 1	1	12322	\N	8	6	2023-05-26 17:30:54.840878	2023-05-26 17:30:59.808806	2023-05-26 17:30:59.808806
 2	1	12322	\N	8	6	2023-05-26 17:36:16.332472	2023-05-26 17:36:16.36402	2023-05-26 17:36:16.36402
 3	1	12322	cart	8	6	2023-05-26 17:38:04.786664	2023-05-26 17:38:04.795764	2023-05-26 17:38:04.795764
+4	1	40013	cart	8	6	2023-05-28 16:38:41.302376	2023-05-28 16:38:41.336091	2023-05-28 16:38:41.336091
+5	1	40013	cart	8	6	2023-05-28 17:17:23.572877	2023-05-28 17:17:23.604055	2023-05-28 17:17:23.604055
+6	1	40013	cart	8	6	2023-05-28 17:18:32.134215	2023-05-28 17:18:32.166779	2023-05-28 17:18:32.166779
+7	1	2074	cart	8	6	2023-05-28 17:47:15.174706	2023-05-28 17:47:15.201545	2023-05-28 17:47:15.201545
+8	1	14967	cart	8	6	2023-05-28 18:09:35.716597	2023-05-28 18:09:35.73211	2023-05-28 18:09:35.73211
+9	1	29412	cart	8	6	2023-05-28 18:32:27.212914	2023-05-28 18:32:27.232935	2023-05-28 18:32:27.232935
+10	1	4212	cart	1	1	2023-05-29 17:08:40.831074	2023-05-29 17:08:40.862154	2023-05-29 17:08:40.862154
+11	1	2720	cart	1	1	2023-05-29 17:22:27.817065	2023-05-29 17:22:27.834063	2023-05-29 17:22:27.834063
+12	1	16664	cart	1	1	2023-05-29 18:05:09.757207	2023-05-29 18:05:09.788074	2023-05-29 18:05:09.788074
+13	1	2039	cart	8	6	2023-05-30 12:22:08.091026	2023-05-30 12:22:08.111141	2023-05-30 12:22:08.111141
+14	1	2039	cart	8	6	2023-05-30 12:28:16.212936	2023-05-30 12:28:16.227884	2023-05-30 12:28:16.227884
+15	1	0	cart	8	6	2023-05-30 12:31:24.977159	2023-05-30 12:31:24.991137	2023-05-30 12:31:24.991137
+16	1	13701	cart	8	6	2023-05-30 12:53:10.855032	2023-05-30 12:53:10.869868	2023-05-30 12:53:10.869868
+17	1	16602	cart	8	6	2023-05-30 12:58:23.114213	2023-05-30 12:58:23.134255	2023-05-30 12:58:23.134255
+18	1	6516	cart	8	6	2023-05-30 13:08:18.575919	2023-05-30 13:08:18.591693	2023-05-30 13:08:18.591693
 \.
 
 
@@ -1151,6 +1198,17 @@ COPY public.payments (id, status, sum, payment_method, user_id, cart_id, paid_at
 --
 
 COPY public.product_orders (id, amount, order_id, product_id, created_at, updated_at) FROM stdin;
+1	1	3	8	2023-05-28 17:47:15.257402	2023-05-28 17:47:15.257402
+2	1	4	3	2023-05-28 18:09:35.75838	2023-05-28 18:09:35.75838
+3	1	4	12	2023-05-28 18:09:35.764205	2023-05-28 18:09:35.764205
+4	1	5	9	2023-05-28 18:32:27.321606	2023-05-28 18:32:27.321606
+5	1	6	6	2023-05-29 17:08:41.187389	2023-05-29 17:08:41.187389
+6	1	6	2	2023-05-29 17:08:41.195112	2023-05-29 17:08:41.195112
+7	1	7	6	2023-05-29 17:22:27.928763	2023-05-29 17:22:27.928763
+8	1	8	12	2023-05-29 18:05:10.024229	2023-05-29 18:05:10.024229
+9	1	10	4	2023-05-30 12:53:33.497521	2023-05-30 12:53:33.497521
+10	1	11	3	2023-05-30 12:58:36.521572	2023-05-30 12:58:36.521572
+11	1	12	2	2023-05-30 13:08:18.677838	2023-05-30 13:08:18.677838
 \.
 
 
@@ -1224,8 +1282,11 @@ COPY public.schema_migrations (version) FROM stdin;
 20230521170235
 20230522081253
 20230526183614
-20230527202129
 20230527202544
+20230527202129
+20230528170241
+20230528150133
+20230528172710
 \.
 
 
@@ -1241,15 +1302,15 @@ COPY public.shops (id, created_at, updated_at) FROM stdin;
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: arina
 --
 
-COPY public.users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, created_at, updated_at, phone, first_name, last_name) FROM stdin;
-1	valcat552@gmail.com	$2a$12$MFFFbEKl3T01UtJKOh6are2/PmmT1fDMJiwbNDBu9nblygoxVyLpa	\N	\N	\N	2023-05-17 18:03:15.251492	2023-05-17 18:03:15.251492	\N	Ari	Sof
-2	dreaming@gmail.com	$2a$12$wUpCdXLfKEi.4U3kxeS4aOWChzYVQzcaNM/tlo24l4dBL6c6fBOeS	\N	\N	\N	2023-05-18 15:58:31.356639	2023-05-18 15:58:31.356639	\N	Dream	Weeee
-3	marklessss@gmail.com	$2a$12$wHIlM5mS.bC/VUSrCGvwTu4DHasX9c/UGH55DZPPmZ7wF7ippI2gi	\N	\N	\N	2023-05-19 17:10:35.08929	2023-05-19 17:10:35.08929	\N	Roberto	Johnson
-4	greenday@gmail.com	$2a$12$cyRnExG9BwKO.yHHD6XPfOs1e1wyOzD5cm2aXdqkGHdWfqJSMtowa	\N	\N	\N	2023-05-19 17:15:11.362808	2023-05-19 17:15:11.362808	\N	Green	Day
-5	robbie@gmail.com	$2a$12$0XhhV7d/Ml6Xwroxnj41M.kbGkl.vVeJaWqfDFkc5ElttW8iexa02	\N	\N	\N	2023-05-21 13:56:02.382858	2023-05-21 13:56:02.382858	\N	Margoth	Robbie
-6	doedoe@gnail.com	$2a$12$x5zn6JY4KpPJ/No4eie5P.BO/9NqM5SzsFB..z.VrvAzYqw4ImR66	\N	\N	\N	2023-05-22 09:54:25.739917	2023-05-22 09:54:25.739917	\N	John	Doe
-7	lee@gmail.com	$2a$12$vI0OH84SRStualTQSSCOmOlvT2ltW5ZOhWbBdwc31RRrWod7zZHS2	\N	\N	\N	2023-05-22 10:18:31.576409	2023-05-22 10:18:31.576409	\N	Joanne	Lee
-8	lasso@gmail.com	$2a$12$FpDIexyHxxf2wGuPYGtIoej3OwglB5bYz5bYdX2Z4mxcNXPtWJqdy	\N	\N	\N	2023-05-22 12:59:57.581981	2023-05-22 12:59:57.581981	\N	Ted	Lasso
+COPY public.users (id, email, encrypted_password, reset_password_token, reset_password_sent_at, remember_created_at, created_at, updated_at, first_name, last_name, stripe_customer_id) FROM stdin;
+1	valcat552@gmail.com	$2a$12$MFFFbEKl3T01UtJKOh6are2/PmmT1fDMJiwbNDBu9nblygoxVyLpa	\N	\N	\N	2023-05-17 18:03:15.251492	2023-05-17 18:03:15.251492	Ari	Sof	\N
+2	dreaming@gmail.com	$2a$12$wUpCdXLfKEi.4U3kxeS4aOWChzYVQzcaNM/tlo24l4dBL6c6fBOeS	\N	\N	\N	2023-05-18 15:58:31.356639	2023-05-18 15:58:31.356639	Dream	Weeee	\N
+3	marklessss@gmail.com	$2a$12$wHIlM5mS.bC/VUSrCGvwTu4DHasX9c/UGH55DZPPmZ7wF7ippI2gi	\N	\N	\N	2023-05-19 17:10:35.08929	2023-05-19 17:10:35.08929	Roberto	Johnson	\N
+4	greenday@gmail.com	$2a$12$cyRnExG9BwKO.yHHD6XPfOs1e1wyOzD5cm2aXdqkGHdWfqJSMtowa	\N	\N	\N	2023-05-19 17:15:11.362808	2023-05-19 17:15:11.362808	Green	Day	\N
+5	robbie@gmail.com	$2a$12$0XhhV7d/Ml6Xwroxnj41M.kbGkl.vVeJaWqfDFkc5ElttW8iexa02	\N	\N	\N	2023-05-21 13:56:02.382858	2023-05-21 13:56:02.382858	Margoth	Robbie	\N
+6	doedoe@gnail.com	$2a$12$x5zn6JY4KpPJ/No4eie5P.BO/9NqM5SzsFB..z.VrvAzYqw4ImR66	\N	\N	\N	2023-05-22 09:54:25.739917	2023-05-22 09:54:25.739917	John	Doe	\N
+7	lee@gmail.com	$2a$12$vI0OH84SRStualTQSSCOmOlvT2ltW5ZOhWbBdwc31RRrWod7zZHS2	\N	\N	\N	2023-05-22 10:18:31.576409	2023-05-22 10:18:31.576409	Joanne	Lee	\N
+8	lasso@gmail.com	$2a$12$FpDIexyHxxf2wGuPYGtIoej3OwglB5bYz5bYdX2Z4mxcNXPtWJqdy	\N	\N	\N	2023-05-22 12:59:57.581981	2023-05-22 12:59:57.581981	Ted	Lasso	\N
 \.
 
 
@@ -1264,7 +1325,7 @@ SELECT pg_catalog.setval('public.active_admin_comments_id_seq', 1, false);
 -- Name: addresses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.addresses_id_seq', 1, false);
+SELECT pg_catalog.setval('public.addresses_id_seq', 13, true);
 
 
 --
@@ -1278,7 +1339,7 @@ SELECT pg_catalog.setval('public.billings_id_seq', 1, false);
 -- Name: cart_products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.cart_products_id_seq', 30, true);
+SELECT pg_catalog.setval('public.cart_products_id_seq', 42, true);
 
 
 --
@@ -1306,14 +1367,14 @@ SELECT pg_catalog.setval('public.friendly_id_slugs_id_seq', 16, true);
 -- Name: order_details_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.order_details_id_seq', 1, false);
+SELECT pg_catalog.setval('public.order_details_id_seq', 13, true);
 
 
 --
 -- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.orders_id_seq', 1, false);
+SELECT pg_catalog.setval('public.orders_id_seq', 12, true);
 
 
 --
@@ -1362,14 +1423,14 @@ SELECT pg_catalog.setval('public.pay_webhooks_id_seq', 1, false);
 -- Name: payments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.payments_id_seq', 3, true);
+SELECT pg_catalog.setval('public.payments_id_seq', 18, true);
 
 
 --
 -- Name: product_orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: arina
 --
 
-SELECT pg_catalog.setval('public.product_orders_id_seq', 1, false);
+SELECT pg_catalog.setval('public.product_orders_id_seq', 11, true);
 
 
 --
@@ -1661,6 +1722,13 @@ CREATE INDEX index_order_details_on_order_id ON public.order_details USING btree
 
 
 --
+-- Name: index_orders_on_payment_id; Type: INDEX; Schema: public; Owner: arina
+--
+
+CREATE INDEX index_orders_on_payment_id ON public.orders USING btree (payment_id);
+
+
+--
 -- Name: index_orders_on_user_id; Type: INDEX; Schema: public; Owner: arina
 --
 
@@ -1840,6 +1908,14 @@ ALTER TABLE ONLY public.addresses
 
 ALTER TABLE ONLY public.product_orders
     ADD CONSTRAINT fk_rails_72071d5a6c FOREIGN KEY (order_id) REFERENCES public.orders(id);
+
+
+--
+-- Name: orders fk_rails_84d308e2db; Type: FK CONSTRAINT; Schema: public; Owner: arina
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT fk_rails_84d308e2db FOREIGN KEY (payment_id) REFERENCES public.payments(id);
 
 
 --
