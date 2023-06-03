@@ -36,6 +36,7 @@ class User < ApplicationRecord
 
   PASSWORD_REGEX = /\A(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!$.#^&@?]).{6,}\z/
   validates :password, presence: true, format: { with: PASSWORD_REGEX,
-                                                 message: 'must be at least 6 characters long and contain at least one uppercase letter, one digit and one special character' }
+                                                 message: 'must be at least 6 characters long and contain at least one
+                                                           uppercase letter, one digit and one special character' }
 
 end

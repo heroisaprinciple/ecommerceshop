@@ -4,7 +4,6 @@ class Carts::LocalCartsService < Carts::CartsService
   # impossible to create a new instance
   private_class_method :new
 
-  # singleton
   def self.instance
     @instance ||= new
   end

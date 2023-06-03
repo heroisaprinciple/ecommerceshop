@@ -5,7 +5,10 @@ Payment is made using Stripe API.</h4>
 
 <h4>The DB Schema:</h4>
 
-![schema](https://i.imgur.com/gVi9Oeh.png)
+![schema](projUmls/ecommerceshop_development_db.png)
+
+<h4>The Model Association Schema:</h4>
+![models](projUmls/cart.png)
 
 <h1>How to run application:</h1>
 
