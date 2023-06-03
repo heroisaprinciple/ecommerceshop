@@ -10,6 +10,7 @@ Payment is made using Stripe API.</h4>
 <h4>The Model Association Schema:</h4>
 ![models](projUmls/cart.png)
 
+
 <h1>How to run application:</h1>
 
 1. Clone a repository.
