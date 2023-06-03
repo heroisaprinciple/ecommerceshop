@@ -8,6 +8,7 @@ Payment is made using Stripe API.</h4>
 ![schema](projUmls/ecommerceshop_development_db.png)
 
 <h4>The Model Association Schema:</h4>
+
 ![models](projUmls/cart.png)
 
 
