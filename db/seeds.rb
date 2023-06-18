@@ -5,7 +5,7 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-categories = Category.create([
+categories = Category.create!([
                                { priority: Faker::Number.number(digits: 2) },
                                { priority: Faker::Number.number(digits: 2) },
                                { priority: Faker::Number.number(digits: 2) }

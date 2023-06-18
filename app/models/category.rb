@@ -12,6 +12,7 @@
 # Indexes
 #
 #  index_categories_on_slug  (slug) UNIQUE
+#
 class ProductIterator
   include Enumerable
 

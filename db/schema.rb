@@ -193,7 +193,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_28_172710) do
   create_table "payments", force: :cascade do |t|
     t.integer "status"
     t.float "sum"
-    t.string "payment_method"
+    t.string "payment_method", default: "card"
     t.bigint "user_id", null: false
     t.bigint "cart_id", null: false
     t.datetime "paid_at"
@@ -218,6 +218,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_28_172710) do
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
     t.string "description"
     t.bigint "category_id"
     t.string "stripe_price_id"

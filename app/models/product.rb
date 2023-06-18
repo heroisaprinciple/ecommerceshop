@@ -5,6 +5,7 @@
 #  id              :bigint           not null, primary key
 #  description     :string
 #  name            :string
+#  position        :integer
 #  price           :decimal(, )
 #  slug            :string
 #  created_at      :datetime         not null
@@ -20,6 +21,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (category_id => categories.id)
+#
 
 class Product < ApplicationRecord
   extend FriendlyId
