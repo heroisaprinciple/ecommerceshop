@@ -1,5 +1,4 @@
 require 'simplecov'
-require "rack_session_access/capybara"
 SimpleCov.start
 
 # Previous content of test helper now sta;:rts here

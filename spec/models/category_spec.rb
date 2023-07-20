@@ -32,9 +32,7 @@ RSpec.describe Category, type: :model do
   describe "scopes" do
     describe ".ordered" do
       it "returns categories ordered by priority in descending order" do
-
         ordered_categories = Category.ordered
-
         expect(ordered_categories).to eq([category3, category1, category2])
       end
     end
